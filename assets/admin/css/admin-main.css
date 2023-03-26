@@ -5,3 +5,23 @@
 .cf-container .cf-field.cf-time {
   border: 0;
 }
+.cf-container__tabs .cf-container__tabs-list .cf-container__tabs-item {
+  background-color: #2271b1;
+}
+.cf-container__tabs .cf-container__tabs-list .cf-container__tabs-item button {
+  color: #fff;
+}
+.cf-container__tabs
+  .cf-container__tabs-list
+  .cf-container__tabs-item:hover
+  button {
+  color: #333;
+}
+.cf-container__tabs .cf-container__tabs-item.cf-container__tabs-item--current {
+  background-color: #fff;
+}
+.cf-container__tabs
+  .cf-container__tabs-item.cf-container__tabs-item--current
+  button {
+  color: #333;
+}
