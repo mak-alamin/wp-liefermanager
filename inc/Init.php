@@ -15,10 +15,11 @@ final class Init
     public static function getServices()
     {
         return [
-            // Base\Assets::class,
+            Base\Assets::class,
             // Frontend::class,
             // Base\Ajax::class,
             Admin\Menus::class,
+            Admin\Pages\Settings::class,
         ];
     }
 

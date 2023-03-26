@@ -1,0 +1,7 @@
+.theme-options-container.container-carbon_fields_container_einstellungen
+  .cf-complex__group-body {
+  flex-wrap: nowrap;
+}
+.cf-container .cf-field.cf-time {
+  border: 0;
+}

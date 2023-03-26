@@ -18,29 +18,29 @@ class PagesCallbacks
         require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/settings.php';
     }
 
-    public function reservationsPage()
+    public function additivesPage()
     {
-        require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/reservations.php';
+        require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/additives.php';
     }
     
-    public function shortcodesPage()
+    public function branchesPage()
     {
-        require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/shortcodes.php';
+        require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/branches.php';
     }
     
-    public function toolsPage()
+    public function tableBookingPage()
     {
-        require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/tools.php';
+        require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/table-booking.php';
     }
     
-    public function licensePage()
+    public function productLayoutPage()
     {
-        require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/license.php';
+        require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/product-layout.php';
     }
    
-    public function getHelpPage()
+    public function extrasPage()
     {
-        require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/get_help.php';
+        require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/extras.php';
     }
 
 }

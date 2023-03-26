@@ -1,20 +1,20 @@
 <?php
 
 /**
-* Plugin Name: WP Liefermanager
-* Plugin URI: https: //example.com/plugins/the-basics/
-* Description: Online Food Ordering System, Delivery/Pickup, Table Reservation with WooCommerce
-* Version: 1.0.0
-* Requires at least: 5.2
-* Requires PHP: 7.2
-* Author: Mak Alamin
-* Author URI:
-* License: GPL v2 or later
-* License URI: https: //www.gnu.org/licenses/gpl-2.0.html
-* Update URI: 
-* Text Domain: wp-liefermanager
-* Domain Path: /languages
-*/
+ * Plugin Name: WP Liefermanager
+ * Plugin URI: https: //example.com/plugins/the-basics/
+ * Description: Online Food Ordering System, Delivery/Pickup, Table Reservation with WooCommerce
+ * Version: 1.0.0
+ * Requires at least: 5.2
+ * Requires PHP: 7.2
+ * Author: Mak Alamin
+ * Author URI:
+ * License: GPL v2 or later
+ * License URI: https: //www.gnu.org/licenses/gpl-2.0.html
+ * Update URI: 
+ * Text Domain: wp-liefermanager
+ * Domain Path: /languages
+ */
 
 
 // If this file is called firectly, abort!!!
@@ -29,9 +29,18 @@ if (file_exists(dirname(__FILE__) . '/functions.php')) {
 	require_once dirname(__FILE__) . '/functions.php';
 }
 
-if (file_exists(dirname(__FILE__) . '/libs/cmb2.php')) {
-	require_once dirname(__FILE__) . '/libs/cmb2.php';
+if (file_exists(dirname(__FILE__) . '/libs/carbon-fields/carbon-fields-plugin.php')) {
+	require_once dirname(__FILE__) . '/libs/carbon-fields/carbon-fields-plugin.php';
 }
+
+/**
+ * Plugin Initial Loading
+ */
+function wp_liefermanager_initial_loads()
+{
+	load_plugin_textdomain('wp-liefermanager', false, dirname(plugin_basename(__FILE__)) . '/languages');
+}
+add_action('plugins_loaded', 'wp_liefermanager_initial_loads');
 
 /**
  * Define constants
