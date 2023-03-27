@@ -25,3 +25,10 @@
   button {
   color: #333;
 }
+
+.wp_liefer_custom_percents .cf-complex__group.cf-complex__group--grid {
+  max-width: 250px;
+}
+span.cf-complex__group-index {
+  visibility: hidden;
+}

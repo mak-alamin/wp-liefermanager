@@ -46,12 +46,41 @@ class Settings
         Container::make('theme_options', __('Settings'))
             ->set_page_parent('wp-liefermanager')
 
-            ->add_tab(__('Opening Hours', 'wp-liefermanager'), $opening_hour_fields)
+            // Opening Hours
+            ->add_tab(__('Öffnungszeiten', 'wp-liefermanager'), $opening_hour_fields)
 
-            ->add_tab(__('Delivery Times'), $delivery_time_fields)
+            //Delivery Times
+            ->add_tab(__('Lieferzeiten'), $delivery_time_fields)
 
-            ->add_tab(__('Tip'), array(
-                Field::make('text', 'wp_liefer_tip_type', __('Tip Type', 'wp-liefermanager')),
+            // Tips
+            ->add_tab(__('Trinkgeld'), array(
+
+                Field::make('checkbox', 'wp_liefer_tip_active', __('Aktivieren Trinkgeld', 'wp-liefermanager')),
+
+                Field::make('text', 'wp_liefer_tip_label', __('Label Trinkgeld', 'wp-liefermanager')),
+
+                Field::make('select', 'wp_liefer_tip_type', __('Tipptyp', 'wp-liefermanager'))
+                    ->set_options(array(
+                        'fixed' => __('Fester Betrag', 'wp-liefermanager'),
+                        'percent' => __('Prozent', 'wp-liefermanager'),
+                        'both' => __('Beide', 'wp-liefermanager')
+                    )),
+
+                Field::make('complex', 'wp_liefer_tip_custom_percents', __('Benutzerdefinierte Spitze Prozentsatz', 'wp-liefermanager'))
+                    ->set_conditional_logic(array(
+                        array(
+                            'field' => 'wp_liefer_tip_type',
+                            'value' => 'fixed',
+                            'compare' => '!=',
+                        )
+                    ))
+                    ->set_classes('wp_liefer_custom_percents')
+                    ->add_fields(
+                        array(
+                            Field::make('text', 'wp_liefer_custom_percent', '')
+                                ->set_attribute('type', 'number')->set_attribute('placeholder', 'Tippprozent hinzufügen'),
+                        )
+                    ),
             ));
     }
 }
