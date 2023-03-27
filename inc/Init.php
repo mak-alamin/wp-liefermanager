@@ -20,6 +20,11 @@ final class Init
             // Base\Ajax::class,
             Admin\Menus::class,
             Admin\Pages\Settings::class,
+            Admin\Pages\Additives::class,
+            Admin\Pages\Branches::class,
+            Admin\Pages\TableBooking::class,
+            Admin\Pages\ProductLayout::class,
+            Admin\Pages\Extras::class,
         ];
     }
 
