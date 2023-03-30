@@ -44,6 +44,7 @@ class Settings
         }
 
         Container::make('theme_options', __('Settings'))
+            ->set_page_file('wp-liefermanager-settings')
             ->set_page_parent('wp-liefermanager')
 
             // Opening Hours

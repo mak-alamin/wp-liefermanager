@@ -29,6 +29,13 @@
 .wp_liefer_custom_percents .cf-complex__group.cf-complex__group--grid {
   max-width: 250px;
 }
-span.cf-complex__group-index {
+/* span.cf-complex__group-index {
   visibility: hidden;
+} */
+.cf-complex__groups .cf-complex__group-body {
+  flex-wrap: nowrap;
+}
+.cf-field__body .cf-file__inner {
+  width: 90px;
+  height: 90px;
 }

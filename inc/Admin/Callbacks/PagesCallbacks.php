@@ -22,25 +22,24 @@ class PagesCallbacks
     {
         require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/additives.php';
     }
-    
+
     public function branchesPage()
     {
         require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/branches.php';
     }
-    
+
     public function tableBookingPage()
     {
         require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/table-booking.php';
     }
-    
+
     public function productLayoutPage()
     {
         require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/product-layout.php';
     }
-   
+
     public function extrasPage()
     {
         require_once WP_LIEFERMANAGER_ADMIN_DIR . '/templates/pages/extras.php';
     }
-
 }

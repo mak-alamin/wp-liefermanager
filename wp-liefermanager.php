@@ -25,22 +25,13 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 	require_once dirname(__FILE__) . '/vendor/autoload.php';
 }
 
-if (file_exists(dirname(__FILE__) . '/functions.php')) {
-	require_once dirname(__FILE__) . '/functions.php';
-}
-
 if (file_exists(dirname(__FILE__) . '/libs/carbon-fields/carbon-fields-plugin.php')) {
 	require_once dirname(__FILE__) . '/libs/carbon-fields/carbon-fields-plugin.php';
 }
 
-/**
- * Plugin Initial Loading
- */
-function wp_liefermanager_initial_loads()
-{
-	load_plugin_textdomain('wp-liefermanager', false, dirname(plugin_basename(__FILE__)) . '/languages');
+if (file_exists(dirname(__FILE__) . '/functions.php')) {
+	require_once dirname(__FILE__) . '/functions.php';
 }
-add_action('plugins_loaded', 'wp_liefermanager_initial_loads');
 
 /**
  * Define constants
@@ -51,6 +42,15 @@ define('WP_LIEFERMANAGER_ASSETS', plugins_url('/assets', __FILE__));
 
 define('WP_LIEFERMANAGER_ADMIN_DIR', WP_LIEFERMANAGER_PLUGIN_DIR . '/inc/Admin');
 define('WP_LIEFERMANAGER_FRONTEND_DIR', WP_LIEFERMANAGER_PLUGIN_DIR . '/inc/Frontend');
+
+/**
+ * Plugin Initial Loading
+ */
+function wp_liefermanager_initial_loads()
+{
+	load_plugin_textdomain('wp-liefermanager', false, dirname(plugin_basename(__FILE__)) . '/languages');
+}
+add_action('plugins_loaded', 'wp_liefermanager_initial_loads');
 
 
 /**

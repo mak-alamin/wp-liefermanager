@@ -19,6 +19,7 @@ class Branches
     function generate_options_with_carbon_fields()
     {
         Container::make('theme_options', __('Filialen'))
+            ->set_page_file('wp-liefermanager-branches')
             ->set_page_parent('wp-liefermanager');
     }
 }

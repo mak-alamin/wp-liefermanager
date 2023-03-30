@@ -19,6 +19,7 @@ class TableBooking
     function generate_options_with_carbon_fields()
     {
         Container::make('theme_options', __('Tischbestellung'))
+            ->set_page_file('wp-liefermanager-tablebooking')
             ->set_page_parent('wp-liefermanager');
     }
 }

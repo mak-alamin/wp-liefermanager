@@ -19,6 +19,7 @@ class Extras
     function generate_options_with_carbon_fields()
     {
         Container::make('theme_options', __('Extras'))
+            ->set_page_file('wp-liefermanager-extras')
             ->set_page_parent('wp-liefermanager');
     }
 }
