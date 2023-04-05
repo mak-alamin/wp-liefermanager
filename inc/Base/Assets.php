@@ -57,5 +57,6 @@ class Assets
         }
 
         wp_enqueue_style('admin-main');
+        wp_enqueue_script('admin-main');
     }
 }

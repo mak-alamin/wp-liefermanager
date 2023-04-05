@@ -32,14 +32,14 @@ class Settings
         foreach ($weekdays as $slug => $weekday) {
             $opening_hour_fields[] = Field::make('complex', 'wp_liefer_' . $slug . '_opening_hours', $weekday)
                 ->add_fields(array(
-                    Field::make('time', 'open_at', __('Opens', 'wp-liefermanager')),
-                    Field::make('time', 'close_at', __('Closes', 'wp-liefermanager'))
+                    Field::make('time', 'open_at', __('Geöffnet', 'wp-liefermanager')),
+                    Field::make('time', 'close_at', __('Geschlossen', 'wp-liefermanager')),
                 ));
 
             $delivery_time_fields[] = Field::make('complex', 'wp_liefer_' . $slug . '_delivery_times', $weekday)
                 ->add_fields(array(
-                    Field::make('time', 'open_at', __('Opens', 'wp-liefermanager')),
-                    Field::make('time', 'close_at', __('Closes', 'wp-liefermanager'))
+                    Field::make('time', 'open_at', __('Geöffnet', 'wp-liefermanager')),
+                    Field::make('time', 'close_at', __('Geschlossen', 'wp-liefermanager'))
                 ));
         }
 

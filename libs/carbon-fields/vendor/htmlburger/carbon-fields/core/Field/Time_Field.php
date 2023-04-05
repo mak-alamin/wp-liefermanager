@@ -5,7 +5,8 @@ namespace Carbon_Fields\Field;
 /**
  * Time picker field class.
  */
-class Time_Field extends Date_Field {
+class Time_Field extends Date_Field
+{
 	/**
 	 * {@inheritDoc}
 	 */
@@ -13,9 +14,10 @@ class Time_Field extends Date_Field {
 		'allowInput' => true,
 		'enableTime' => true,
 		'noCalendar' => true,
-		'enableSeconds' => true,
+		'enableSeconds' => false,
 		'altInput' => true,
-		'altFormat' => "h:i:S K",
+		'altFormat' => "H:i",
+		'time_24hr' => true
 	);
 
 	/**
@@ -33,8 +35,9 @@ class Time_Field extends Date_Field {
 	 */
 	protected $input_format_js = 'h:i:S K';
 
-	public function get_storage_format() {
-		if ( $this->get_context() === 'block' ) {
+	public function get_storage_format()
+	{
+		if ($this->get_context() === 'block') {
 			$this->input_format_js = "Y-m-d h:i:S K";
 
 			return "Y-m-d H:i:s";

@@ -39,3 +39,8 @@
   width: 90px;
   height: 90px;
 }
+.cf-container .cf-complex > .cf-field__head .cf-field__label {
+  color: #1e2365;
+  font-weight: 600;
+  font-size: 18px;
+}

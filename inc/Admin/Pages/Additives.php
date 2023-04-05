@@ -60,9 +60,11 @@ class Additives
             // Allergene
             ->add_tab(__('Allergene', 'wp-liefermanager'), array(
                 Field::make('complex', 'wp_liefer_alergenes', __('Allergene', 'wp-liefermanager'))
-                    ->add_fields('alergenes', array(
+                    ->add_fields('allergene', array(
                         Field::make('text', 'short_name', 'Kurzer Name'),
-                        Field::make('text', 'fullname', 'Name')
+                        Field::make('text', 'fullname', 'Name'),
+                        Field::make('file', 'icon', 'Icon')
+                            ->set_type(array('image')),
                     ))
             ))
 
@@ -71,13 +73,15 @@ class Additives
                 Field::make('complex', 'wp_liefer_additives', __('Zusatzstoffe', 'wp-liefermanager'))
                     ->add_fields('additives', array(
                         Field::make('text', 'short_name', 'Kurzer Name'),
-                        Field::make('text', 'fullname', 'Name')
+                        Field::make('text', 'fullname', 'Name'),
+                        Field::make('file', 'icon', 'Icon')
+                            ->set_type(array('image')),
                     ))
             ))
 
             // Food Types
             ->add_tab(__('Lebensmitteltyp', 'wp-liefermanager'), array(
-                Field::make('complex', 'wp_liefer_food_types', __('Lebensmitteltyp', 'wp-liefermanager'))
+                Field::make('complex', 'wp_liefer_food_types', __('Lebensmittel Typ', 'wp-liefermanager'))
                     ->add_fields('food_types', array(
                         Field::make('text', 'short_name', 'Kurzer Name'),
                         Field::make('text', 'fullname', 'Name'),
