@@ -52,7 +52,6 @@ class Additives
 
     function generate_options_with_carbon_fields()
     {
-
         Container::make('theme_options', __('Zusatzstoffe'))
             ->set_page_parent('wp-liefermanager')
             ->set_page_file('wp-liefermanager-additives')
@@ -63,6 +62,7 @@ class Additives
                     ->add_fields('allergene', array(
                         Field::make('text', 'short_name', 'Kurzer Name'),
                         Field::make('text', 'fullname', 'Name'),
+                        Field::make('textarea', 'description', 'Description'),
                         Field::make('file', 'icon', 'Icon')
                             ->set_type(array('image')),
                     ))
@@ -74,6 +74,7 @@ class Additives
                     ->add_fields('additives', array(
                         Field::make('text', 'short_name', 'Kurzer Name'),
                         Field::make('text', 'fullname', 'Name'),
+                        Field::make('textarea', 'description', 'Description'),
                         Field::make('file', 'icon', 'Icon')
                             ->set_type(array('image')),
                     ))

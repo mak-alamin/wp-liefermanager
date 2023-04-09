@@ -11,6 +11,7 @@ const replacements = new Map([
   ["Additives", "Zusatzstoffe"],
   ["Select Time", "Uhrzeit"],
   ["No options", "Keine Optionen"],
+  ["Select / Deselect All", "Alle auswählen / abwählen"],
 ]);
 
 function wpLieferFindAndReplaceText(node, replacements) {

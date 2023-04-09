@@ -29,6 +29,12 @@ if (file_exists(dirname(__FILE__) . '/libs/carbon-fields/carbon-fields-plugin.ph
 	require_once dirname(__FILE__) . '/libs/carbon-fields/carbon-fields-plugin.php';
 }
 
+if (file_exists(dirname(__FILE__) . '/libs/cmb2/init.php')) {
+	require_once dirname(__FILE__) . '/libs/cmb2/init.php';
+} elseif (file_exists(dirname(__FILE__) . '/libs/CMB2/init.php')) {
+	require_once dirname(__FILE__) . '/libs/CMB2/init.php';
+}
+
 if (file_exists(dirname(__FILE__) . '/functions.php')) {
 	require_once dirname(__FILE__) . '/functions.php';
 }

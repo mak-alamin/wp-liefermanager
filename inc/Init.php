@@ -25,6 +25,9 @@ final class Init
             Admin\Pages\TableBooking::class,
             Admin\Pages\ProductLayout::class,
             Admin\Pages\Extras::class,
+            Admin\ProductMeta\ProductMeta::class,
+            Frontend\Additives\Additives::class,
+            Frontend\Shortcodes\Shortcodes::class,
         ];
     }
 

@@ -33,6 +33,8 @@ class Assets
             }
         }
 
+        wp_enqueue_style('frontend-main');
+
         wp_localize_script('widget-main', 'WP_LIEFERMANAGERData', array(
             'ajaxurl' => admin_url('admin-ajax.php')
         ));

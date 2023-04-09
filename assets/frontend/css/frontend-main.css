@@ -1,0 +1,13 @@
+.mt-3 {
+  margin-top: 30px;
+}
+.ml-1 {
+  margin-left: 10px;
+}
+.additives img {
+  max-width: 80px;
+}
+table.additives tr td:first-child {
+  width: 120px;
+  text-align: center;
+}
