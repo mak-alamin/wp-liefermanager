@@ -4,10 +4,23 @@
 .ml-1 {
   margin-left: 10px;
 }
-.additives img {
-  max-width: 80px;
+.additives {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
-table.additives tr td:first-child {
-  width: 120px;
-  text-align: center;
+.additives ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0;
+  margin: 20px 0 0;
+}
+.additives ul li {
+  list-style: none;
+  display: inline-block;
+}
+.additives table img,
+.additives li a img {
+  max-width: 80px;
 }
