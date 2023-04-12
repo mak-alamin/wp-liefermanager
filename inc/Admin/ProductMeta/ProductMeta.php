@@ -20,9 +20,11 @@ class ProductMeta
     {
         $allergenes = carbon_get_theme_option('wp_liefer_alergenes');
         $additives = carbon_get_theme_option('wp_liefer_additives');
+        $food_types = carbon_get_theme_option('wp_liefer_mildness_foodtype');
 
         $allergene_checkboxes = array();
         $additives_checkboxes = array();
+        $food_types_checkboxes = array();
 
         foreach ($allergenes as $key => $allergene) {
             $allergene_checkboxes[strtolower(str_replace(' ', '_', $allergene['fullname']))] = $allergene['fullname'];
@@ -30,6 +32,10 @@ class ProductMeta
 
         foreach ($additives as $key => $additive) {
             $additives_checkboxes[strtolower(str_replace(' ', '_', $additive['fullname']))] = $additive['fullname'];
+        }
+
+        foreach ($food_types as $key => $food_type) {
+            $food_types_checkboxes[strtolower(str_replace(' ', '_', $food_type['fullname']))] = $food_type['fullname'];
         }
 
         $cmb2 = new_cmb2_box(array(
@@ -52,6 +58,14 @@ class ProductMeta
             'id'      => 'additives_checked',
             'type'    => 'multicheck',
             'options' => $additives_checkboxes,
+        ));
+
+        $cmb2->add_field(array(
+            'name'    => _x('Lebensmitteltyp', 'wp-liefermanager'),
+            'desc'    => '',
+            'id'      => 'foodtypes_checked',
+            'type'    => 'multicheck',
+            'options' => $food_types_checkboxes,
         ));
     }
 }

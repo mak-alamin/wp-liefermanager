@@ -16,40 +16,6 @@ class Additives
         add_action('carbon_fields_register_fields', [$this, 'generate_options_with_carbon_fields']);
     }
 
-    public function get_food_type_mildness()
-    {
-        $foodtype_mildness = carbon_get_theme_option('wp_liefer_mildness_foodtype');
-
-        $options = array();
-
-        if (empty($foodtype_mildness)) {
-            return $options;
-        }
-
-        foreach ($foodtype_mildness as $key => $mildness) {
-            $options[strtolower($mildness['fullname'])] = $mildness['fullname'];
-        }
-
-        return $options;
-    }
-
-    public function get_food_type_others()
-    {
-        $foodtype_others = carbon_get_theme_option('wp_liefer_others_foodtype');
-
-        $options = array();
-
-        if (empty($foodtype_others)) {
-            return $options;
-        }
-
-        foreach ($foodtype_others as $key => $value) {
-            $options[strtolower($value['fullname'])] = $value['fullname'];
-        }
-
-        return $options;
-    }
-
     function generate_options_with_carbon_fields()
     {
         Container::make('theme_options', __('Zusatzstoffe'))
@@ -112,5 +78,39 @@ class Additives
                             ->set_type(array('image')),
                     ))
             ));
+    }
+
+    public function get_food_type_mildness()
+    {
+        $foodtype_mildness = carbon_get_theme_option('wp_liefer_mildness_foodtype');
+
+        $options = array();
+
+        if (empty($foodtype_mildness)) {
+            return $options;
+        }
+
+        foreach ($foodtype_mildness as $key => $mildness) {
+            $options[strtolower($mildness['fullname'])] = $mildness['fullname'];
+        }
+
+        return $options;
+    }
+
+    public function get_food_type_others()
+    {
+        $foodtype_others = carbon_get_theme_option('wp_liefer_others_foodtype');
+
+        $options = array();
+
+        if (empty($foodtype_others)) {
+            return $options;
+        }
+
+        foreach ($foodtype_others as $key => $value) {
+            $options[strtolower($value['fullname'])] = $value['fullname'];
+        }
+
+        return $options;
     }
 }

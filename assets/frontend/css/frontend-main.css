@@ -24,3 +24,6 @@
 .additives li a img {
   max-width: 80px;
 }
+.additives table tbody > tr > td:first-child {
+  width: 110px;
+}
