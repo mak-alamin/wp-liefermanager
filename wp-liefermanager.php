@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: WP Liefermanager
  * Plugin URI: https: //example.com/plugins/the-basics/
@@ -15,7 +14,6 @@
  * Text Domain: wp-liefermanager
  * Domain Path: /languages
  */
-
 
 // If this file is called firectly, abort!!!
 defined('ABSPATH') or die('Hey, Stay out of here. You are blocked!');

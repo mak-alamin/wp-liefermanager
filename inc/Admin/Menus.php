@@ -24,12 +24,19 @@ class Menus
 
 		if (!empty($this->admin_pages)) {
 			add_action('admin_menu', array($this, 'addAdminPages'));
+
+			add_action('admin_menu', array($this, 'addFoodExtraAdminPage'), 11);
 		}
 	}
 
 	private function setPages()
 	{
 		$this->admin_pages = require_once __DIR__ . '/config/pages.php';
+	}
+
+	public function addFoodExtraAdminPage()
+	{
+		add_submenu_page('wp-liefermanager', _x('WP Liefermanager | Extras', 'wp-liefermanager'), _x('Extras', 'wp-liefermanager'), 'manage_options', 'edit.php?post_type=wp-liefer-extras');
 	}
 
 	public function addAdminPages()

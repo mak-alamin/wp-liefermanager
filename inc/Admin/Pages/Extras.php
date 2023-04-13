@@ -18,8 +18,12 @@ class Extras
 
     function generate_options_with_carbon_fields()
     {
-        Container::make('theme_options', __('Extras'))
-            ->set_page_file('wp-liefermanager-extras')
-            ->set_page_parent('wp-liefermanager');
+        Container::make('post_meta', __('Zusätzliche Optionen', 'wp-liefermanager'))
+            ->add_fields(array(
+                Field::make('complex', 'wp_liefer_food_extras', '')
+                    ->add_fields('wp_liefer_food_extras', 'Zusatzoption', array(
+                        Field::make('text', 'extra_name', 'Gericht'),
+                    ))
+            ));
     }
 }
