@@ -27,3 +27,13 @@
 .additives table tbody > tr > td:first-child {
   width: 110px;
 }
+.food_extras p {
+  margin-bottom: 5px;
+}
+.food_extras p.option-title {
+  margin-top: 15px;
+}
+.food_extras input,
+.food_extras label {
+  cursor: pointer;
+}

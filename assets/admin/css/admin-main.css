@@ -44,3 +44,30 @@
   font-weight: 600;
   font-size: 18px;
 }
+
+/* Food Extra Options */
+.wp_liefer_food_extras .cf-complex__groups .cf-complex__group-body {
+  flex-wrap: wrap;
+}
+.wp_liefer_food_extras
+  .wp_liefer_food_extra_options
+  .cf-complex__groups
+  .cf-complex__group-body {
+  flex-wrap: nowrap;
+}
+.wp_liefer_food_extras input,
+.wp_liefer_food_extras select {
+  max-width: 260px;
+}
+.wp_liefer_food_extras
+  > .cf-field__body
+  > .cf-complex__groups
+  > .cf-complex__group {
+  border: 2px solid #135e962b;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+.cf-multiselect__multi-value {
+  display: inline-block;
+}
+/* Food Extra Options End */

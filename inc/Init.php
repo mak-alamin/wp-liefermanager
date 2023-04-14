@@ -27,6 +27,7 @@ final class Init
             Admin\Pages\Extras::class,
             Admin\CPT\CPT::class,
             Admin\ProductMeta\ProductMeta::class,
+            Frontend\Extras\Extras::class,
             Frontend\Additives\Additives::class,
             Frontend\Shortcodes\Shortcodes::class,
         ];
