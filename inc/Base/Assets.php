@@ -35,7 +35,9 @@ class Assets
 
         wp_enqueue_style('frontend-main');
 
-        wp_localize_script('widget-main', 'WP_LIEFERMANAGERData', array(
+        wp_enqueue_script('main');
+
+        wp_localize_script('main', 'WPLiefermanagerData', array(
             'ajaxurl' => admin_url('admin-ajax.php')
         ));
     }

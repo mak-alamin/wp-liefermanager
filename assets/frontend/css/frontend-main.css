@@ -37,3 +37,9 @@
 .food_extras label {
   cursor: pointer;
 }
+.wp_liefer_extra_option input.change_quantity {
+  max-width: 60px;
+  padding: 3px 8px;
+  margin-left: 8px;
+  border-radius: 3px;
+}
