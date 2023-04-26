@@ -62,7 +62,9 @@ class Extras
         if (isset($cart_item['global_extras']) && !empty($cart_item['global_extras'])) {
             foreach ($cart_item['global_extras'] as $key => $option) {
                 $item_data[] = array(
-                    'key'   => $option['quantity']  . ' x ' . $option['option_name'],
+                    // $option['quantity']  . ' x ' .
+
+                    'key'   => $option['option_name'],
                     'value' => ' (' . intval($option['quantity']) * floatval($option['option_price']) . get_woocommerce_currency_symbol() . ')',
                 );
             }
@@ -71,7 +73,7 @@ class Extras
         if (isset($cart_item['product_extras']) && !empty($cart_item['product_extras'])) {
             foreach ($cart_item['product_extras'] as $key => $option) {
                 $item_data[] = array(
-                    'key'   => $option['quantity']  . ' x ' . $option['option_name'],
+                    'key'   => $option['option_name'],
                     'value' => ' (' . intval($option['quantity']) * floatval($option['option_price']) . get_woocommerce_currency_symbol() . ')',
                 );
             }
@@ -103,7 +105,7 @@ class Extras
                     }
                 } else {
                     $options = (array) json_decode(stripslashes($options));
-                    
+
                     $options['option_price'] = str_replace('.', '', $options['option_price']);
                     $options['option_price'] = str_replace(',', '.', $options['option_price']);
 
@@ -182,9 +184,9 @@ class Extras
 
                                 echo "</select>";
 
-                                if ($price_type == 'quantity') {
-                                    echo "<input type='number' value='1' min='1' class='change_quantity' />";
-                                }
+                                // if ($price_type == 'quantity') {
+                                //     echo "<input type='number' value='1' min='1' class='change_quantity' />";
+                                // }
 
                                 echo "</p>";
                             }
@@ -206,7 +208,7 @@ class Extras
 
                                     echo "<input type='radio' name='$option_name' id='$option_id' value='" . json_encode($option) . "' class='extra_option' /><label for='$option_id' class='ml-1'>" . $option['option_name'] . ' (' . $option['option_price'] . get_woocommerce_currency_symbol() . ")</label>";
 
-                                    echo ($price_type == 'quantity') ? "<input type='number' value='1' min='1' class='change_quantity' />" : "";
+                                    // echo ($price_type == 'quantity') ? "<input type='number' value='1' min='1' class='change_quantity' />" : "";
 
                                     echo "</p>";
                                 }
@@ -230,7 +232,7 @@ class Extras
 
                                     echo "<input type='checkbox' name='$option_name' id='$option_id' value='" . json_encode($option) . "' class='extra_option' /><label for='$option_id' class='ml-1'>" . $option['option_name'] . ' (' . $option['option_price'] . get_woocommerce_currency_symbol() . ")</label>";
 
-                                    echo ($price_type == 'quantity') ? "<input type='number' value='1' min='1' class='change_quantity' />" : "";
+                                    // echo ($price_type == 'quantity') ? "<input type='number' value='1' min='1' class='change_quantity' />" : "";
 
                                     echo "</p>";
                                 }
@@ -275,7 +277,7 @@ class Extras
 
                         echo "</select>";
 
-                        echo ($price_type == 'quantity') ? "<input type='number' value='1' min='1' class='change_quantity' />" : "";
+                        // echo ($price_type == 'quantity') ? "<input type='number' value='1' min='1' class='change_quantity' />" : "";
 
                         echo "</p>";
                     }
@@ -297,7 +299,7 @@ class Extras
 
                             echo "<input type='radio' name='$option_name' id='$option_id' value='" . json_encode($option) . "' class='extra_option' /><label for='$option_id' class='ml-1'>" . $option['option_name'] . ' (' . $option['option_price'] . get_woocommerce_currency_symbol() . ")</label>";
 
-                            echo ($price_type == 'quantity') ? "<input type='number' value='1' min='1' class='change_quantity' />" : "";
+                            // echo ($price_type == 'quantity') ? "<input type='number' value='1' min='1' class='change_quantity' />" : "";
 
                             echo "</p>";
                         }
@@ -321,7 +323,7 @@ class Extras
 
                             echo "<input type='checkbox' name='$option_name' id='$option_id' value='" . json_encode($option) . "' class='extra_option' /><label for='$option_id' class='ml-1'>" . $option['option_name'] . ' (' . $option['option_price'] . get_woocommerce_currency_symbol() . ")</label>";
 
-                            echo ($price_type == 'quantity') ? "<input type='number' value='1' min='1' class='change_quantity' />" : "";
+                            // echo ($price_type == 'quantity') ? "<input type='number' value='1' min='1' class='change_quantity' />" : "";
 
                             echo "</p>";
                         }

@@ -4,6 +4,13 @@
 .ml-1 {
   margin-left: 10px;
 }
+.woocommerce button.button {
+  margin-bottom: 20px;
+}
+button.button.remove-tip {
+  background: #cc1818;
+  margin-left: 10px;
+}
 .additives {
   display: flex;
   align-items: center;

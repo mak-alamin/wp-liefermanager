@@ -67,6 +67,8 @@ class Settings
                         'both' => __('Beide', 'wp-liefermanager')
                     )),
 
+                Field::make('text', 'wp_liefer_tip_default_value', __('Default Value', 'wp-liefermanager')),
+
                 Field::make('complex', 'wp_liefer_tip_custom_percents', __('Benutzerdefinierte Spitze Prozentsatz', 'wp-liefermanager'))
                     ->set_conditional_logic(array(
                         array(
