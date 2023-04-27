@@ -21,6 +21,7 @@ class Extras
         Container::make('post_meta', __('Zusätzliche Optionen', 'wp-liefermanager'))
             ->where('post_type', '=', 'wp-liefer-extras')
             ->add_fields(array(
+                Field::make('checkbox', 'wp_liefer_use_in_variations', 'Verwendung in Variationen'),
                 Field::make('complex', 'wp_liefer_global_extras', '')
                     ->set_classes('wp_liefer_food_extras')
                     ->add_fields('wp_liefer_global_extras', 'Zusatzoption', array(
