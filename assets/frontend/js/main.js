@@ -43,6 +43,8 @@
 
       let productId = $(this).closest("form").data("product_id");
 
+      let quantity = parseInt($(".quantity input.qty").val());
+
       $.ajax({
         method: "GET",
         url: WPLiefermanagerData.ajaxurl,
@@ -56,7 +58,9 @@
 
           productPrice = parseFloat(res?.price);
 
-          $(".wp-liefer-total-price").html(res?.price);
+          let totalPriceHtml = (parseFloat(res?.price) * quantity).toFixed(2);
+
+          $(".wp-liefer-total-price").html(totalPriceHtml);
         },
         error: function (err) {
           console.log(err);

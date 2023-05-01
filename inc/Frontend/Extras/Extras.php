@@ -36,7 +36,7 @@ class Extras
 
         $price = $product->get_price();
 
-        echo '<h2>Total: <span class="wp-liefer-total-price">' . $price . '</span>' . get_woocommerce_currency_symbol() . '</h2>';
+        echo '<h2>Gesamt: <span class="wp-liefer-total-price">' . $price . '</span>' . get_woocommerce_currency_symbol() . '</h2>';
     }
 
     function wp_liefer_show_variation_extras()
