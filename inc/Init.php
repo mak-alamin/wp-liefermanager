@@ -30,7 +30,8 @@ final class Init
             Frontend\Extras\Extras::class,
             Frontend\Additives\Additives::class,
             Frontend\Shortcodes\Shortcodes::class,
-            Frontend\Checkout\Tips::class
+            Frontend\Checkout\Tips::class,
+            Frontend\Checkout\Delivery::class,
         ];
     }
 

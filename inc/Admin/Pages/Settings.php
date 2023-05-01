@@ -23,7 +23,9 @@ class Settings
             'dienstag' => __('Dienstag', 'wp-liefermanager'),
             'mittwoch' => __('Mittwoch', 'wp-liefermanager'),
             'donnerstag' => __('Donnerstag', 'wp-liefermanager'),
-            'freitag' => __('Freitag', 'wp-liefermanager')
+            'freitag' => __('Freitag', 'wp-liefermanager'),
+            'samstag' => __('Samstag', 'wp-liefermanager'),
+            'sontag' => __('Sontag', 'wp-liefermanager'),
         );
 
         $opening_hour_fields = array();
@@ -51,10 +53,10 @@ class Settings
             ->add_tab(__('Öffnungszeiten', 'wp-liefermanager'), $opening_hour_fields)
 
             //Delivery Times
-            ->add_tab(__('Lieferzeiten'), $delivery_time_fields)
+            ->add_tab(__('Lieferzeiten', 'wp-liefermanager'), $delivery_time_fields)
 
             // Tips
-            ->add_tab(__('Trinkgeld'), array(
+            ->add_tab(__('Trinkgeld', 'wp-liefermanager'), array(
 
                 Field::make('checkbox', 'wp_liefer_tip_active', __('Aktivieren Trinkgeld', 'wp-liefermanager')),
 
