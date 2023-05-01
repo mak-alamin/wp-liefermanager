@@ -113,8 +113,8 @@ class Delivery
             'type'      => 'radio',
             'class'     => array('form-row-wide delivery-option'),
             'options'   => array(
-                'delivery'  => __('Delivery', 'wp-liefermanager'),
-                'pickup'    => __('Pickup', 'wp-liefermanager')
+                'delivery'  => __('Lieferung', 'wp-liefermanager'),
+                'pickup'    => __('Abholung', 'wp-liefermanager')
             ),
             'default'   => 'delivery',
             'required'  => true,
@@ -163,24 +163,24 @@ class Delivery
     public function validate_delivery_option()
     {
         if (empty($_POST['wp_liefer_delivery_option'])) {
-            wc_add_notice(__('Please choose delivery or pickup option.', 'wp-liefermanager'), 'error');
+            wc_add_notice(__('Bitte wählen Sie die Liefer- oder Abholoption.', 'wp-liefermanager'), 'error');
         }
 
         if ($_POST['wp_liefer_delivery_option'] == 'delivery') {
             if (empty($_POST['wp_liefer_delivery_datepicker'])) {
-                wc_add_notice(__('Please choose a delivery date.', 'wp-liefermanager'), 'error');
+                wc_add_notice(__('Bitte wählen Sie ein Lieferdatum aus.', 'wp-liefermanager'), 'error');
             }
 
             if (empty($_POST['wp_liefer_delivery_timepicker'])) {
-                wc_add_notice(__('Please choose a delivery time.', 'wp-liefermanager'), 'error');
+                wc_add_notice(__('Bitte wählen Sie eine Lieferzeit aus.', 'wp-liefermanager'), 'error');
             }
         } else if ($_POST['wp_liefer_delivery_option'] == 'pickup') {
             if (empty($_POST['wp_liefer_pickup_datepicker'])) {
-                wc_add_notice(__('Please choose a pickup date.', 'wp-liefermanager'), 'error');
+                wc_add_notice(__('Bitte wählen Sie ein Abholdatum aus.', 'wp-liefermanager'), 'error');
             }
 
             if (empty($_POST['wp_liefer_pickup_timepicker'])) {
-                wc_add_notice(__('Please choose a pickup time.', 'wp-liefermanager'), 'error');
+                wc_add_notice(__('Bitte wählen Sie eine Abholzeit aus.', 'wp-liefermanager'), 'error');
             }
         }
     }

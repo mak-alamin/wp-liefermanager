@@ -13,10 +13,6 @@ class Additives
 {
     public function register()
     {
-        if (is_admin()) {
-            return;
-        }
-
         add_action('woocommerce_product_meta_end', [$this, 'show_additives']);
     }
 

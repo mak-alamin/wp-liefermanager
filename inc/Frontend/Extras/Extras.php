@@ -21,12 +21,22 @@ class Extras
 
         add_action('woocommerce_before_calculate_totals', [$this, 'add_extra_prices']);
 
-        // Frontend Variation extras
-        // add_filter('woocommerce_available_variation', [$this, 'show_variation_extras'], 10, 3);
-
+        // Show variation extras
         add_action('wp_ajax_wp_liefer_show_variation_extras', [$this, 'wp_liefer_show_variation_extras']);
 
         add_action('wp_ajax_nopriv_wp_liefer_show_variation_extras', [$this, 'wp_liefer_show_variation_extras']);
+
+        // Show Total Price
+        add_action('woocommerce_after_add_to_cart_quantity', [$this, 'show_total_price']);
+    }
+
+    public function show_total_price()
+    {
+        global $product;
+
+        $price = $product->get_price();
+
+        echo '<h2>Total: <span class="wp-liefer-total-price">' . $price . '</span>' . get_woocommerce_currency_symbol() . '</h2>';
     }
 
     function wp_liefer_show_variation_extras()
@@ -52,6 +62,8 @@ class Extras
             $match_attributes
         );
 
+        $price = wc_get_product($variation_id)->get_price();
+
         if (!empty($global_extras)) {
             foreach ($global_extras as $key => $extra) {
                 $useInVariation = carbon_get_post_meta($extra->ID, 'wp_liefer_use_in_variations');
@@ -66,7 +78,11 @@ class Extras
 
         $extra_html = $this->generate_global_extras($selected_extras);
 
-        wp_send_json($extra_html);
+
+        wp_send_json(array(
+            'price' => $price,
+            'extra_html' => $extra_html,
+        ));
     }
 
     public function add_extra_prices($cart_object)
@@ -104,21 +120,24 @@ class Extras
     {
         if (isset($cart_item['global_extras']) && !empty($cart_item['global_extras'])) {
             foreach ($cart_item['global_extras'] as $key => $option) {
-                $item_data[] = array(
-                    // $option['quantity']  . ' x ' .
-
-                    'key'   => $option['option_name'],
-                    'value' => ' (' . intval($option['quantity']) * floatval($option['option_price']) . get_woocommerce_currency_symbol() . ')',
-                );
+                if (isset($option['option_name'])) {
+                    $item_data[] = array(
+                        // $option['quantity']  . ' x ' .
+                        'key'   => $option['option_name'],
+                        'value' => ' (' . intval($option['quantity']) * floatval($option['option_price']) . get_woocommerce_currency_symbol() . ')',
+                    );
+                }
             }
         }
 
         if (isset($cart_item['product_extras']) && !empty($cart_item['product_extras'])) {
             foreach ($cart_item['product_extras'] as $key => $option) {
-                $item_data[] = array(
-                    'key'   => $option['option_name'],
-                    'value' => ' (' . intval($option['quantity']) * floatval($option['option_price']) . get_woocommerce_currency_symbol() . ')',
-                );
+                if (isset($option['option_name'])) {
+                    $item_data[] = array(
+                        'key'   => $option['option_name'],
+                        'value' => ' (' . intval($option['quantity']) * floatval($option['option_price']) . get_woocommerce_currency_symbol() . ')',
+                    );
+                }
             }
         }
 
@@ -222,7 +241,7 @@ class Extras
 
                         echo "<select name='product_extra_options[$serial]' class='extra_option'>";
 
-                        echo "<option selected disabled>Choose Option</option>";
+                        echo "<option selected>Choose Option</option>";
 
                         foreach ($extra['extra_options'] as $option_key => $option) {
                             $price_type = $option['price_type'];
@@ -312,7 +331,7 @@ class Extras
                                 $extra_html .= "<p class='wp_liefer_extra_option'>";
                                 $extra_html .= "<select name='global_extra_options[$serial]' class='extra_option'>";
 
-                                $extra_html .= "<option selected disabled>Choose Option</option>";
+                                $extra_html .= "<option selected>Choose Option</option>";
 
                                 foreach ($extra['extra_options'] as $option_key => $option) {
                                     $price_type = $option['price_type'];
