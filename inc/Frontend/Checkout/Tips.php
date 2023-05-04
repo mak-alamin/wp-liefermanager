@@ -87,32 +87,32 @@ class Tips
         if ($tip_type == 'percent') {
             $tipTypes = array(
                 'percent'  => __('Prozent', 'wp-liefermanager'),
-                ''         => __('Kein Trinkgeld', 'wp-liefermanager'),
+                // ''         => __('Kein Trinkgeld', 'wp-liefermanager'),
             );
         } else if ($tip_type == 'fixed') {
             $tipTypes = array(
                 'fixed'    => __('Fester Betrag', 'wp-liefermanager'),
-                ''         => __('Kein Trinkgeld', 'wp-liefermanager'),
+                // ''         => __('Kein Trinkgeld', 'wp-liefermanager'),
             );
         } else {
             $tipTypes = array(
                 'fixed'    => __('Fester Betrag', 'wp-liefermanager'),
                 'percent'  => __('Prozent', 'wp-liefermanager'),
-                ''         => __('Kein Trinkgeld', 'wp-liefermanager'),
+                // ''         => __('Kein Trinkgeld', 'wp-liefermanager'),
             );
         }
 
-        woocommerce_form_field('tip_option', array(
-            'type'        => 'select',
-            'class'       => array('form-row-wide'),
-            'label'       => __($tip_label, 'wp-liefermanager'),
-            'options'     => $tipTypes,
-        ), WC()->session->get('tip_option'));
+        // woocommerce_form_field('tip_option', array(
+        //     'type'        => 'select',
+        //     'class'       => array('form-row-wide'),
+        //     'label'       => __($tip_label, 'wp-liefermanager'),
+        //     'options'     => $tipTypes,
+        // ), WC()->session->get('tip_option'));
 
         woocommerce_form_field('tip_amount', array(
             'type'        => 'number',
             'class'       => array('form-row-wide'),
-            'label'       => __('Trinkgeldbetrag', 'wp-liefermanager') . ' (' . get_woocommerce_currency_symbol() . ')',
+            'label'       => __($tip_label, 'wp-liefermanager') . ' (' . get_woocommerce_currency_symbol() . ')',
             'placeholder' => '',
             'custom_attributes' => array('min' => '0')
         ), $tipValue);

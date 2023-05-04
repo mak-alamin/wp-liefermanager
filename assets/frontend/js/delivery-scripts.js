@@ -105,12 +105,12 @@ jQuery(document).ready(function ($) {
   };
 
   // Delivery date picker
-  $("#wp_liefer_delivery_datepicker").datepicker({
-    dateFormat: "yy-mm-dd",
-    beforeShowDay: deliveryOffdays,
-    minDate: 0,
-    maxDate: "+1m",
-  });
+  // $("#wp_liefer_delivery_datepicker").datepicker({
+  //   dateFormat: "yy-mm-dd",
+  //   beforeShowDay: deliveryOffdays,
+  //   minDate: 0,
+  //   maxDate: "+1m",
+  // });
 
   function wpLieferGenerateDeliveryTimes(weekDay, date) {
     const year = date.getFullYear();
@@ -126,13 +126,13 @@ jQuery(document).ready(function ($) {
         weekday: weekDay,
       },
       success: function (res) {
-        // console.log(res);
+        console.log(res);
 
         let deliveryTimes = res?.deliveryTimes;
 
         let slotInterval = 30; // in minutes
 
-        let preparationTime = 30; // in minutes
+        let preparationTime = 0; // in minutes
 
         if (deliveryTimes.length) {
           $("#wp_liefer_delivery_timepicker").val("");
@@ -182,45 +182,54 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  // Delivery times on date select
-  $("#wp_liefer_delivery_datepicker").on("change", function () {
-    $("#wp_liefer_delivery_timepicker_field").show();
-
-    $("#wp_liefer_delivery_timepicker_field").block({
-      message: wp_liefer_loader,
-    });
-
-    let choosenDate = new Date($(this).val());
-    let weekDay = choosenDate.getDay();
-
-    wpLieferGenerateDeliveryTimes(weekDay, choosenDate);
+  // Generate Delivery Times for current day
+  $("#wp_liefer_delivery_timepicker_field").block({
+    message: wp_liefer_loader,
   });
+  let currentDeliveryDate = new Date();
+  let deliveryWeekDay = currentDeliveryDate.getDay();
+
+  wpLieferGenerateDeliveryTimes(deliveryWeekDay, currentDeliveryDate);
+
+  // Delivery times on date select
+  // $("#wp_liefer_delivery_datepicker").on("change", function () {
+  //   $("#wp_liefer_delivery_timepicker_field").show();
+
+  //   $("#wp_liefer_delivery_timepicker_field").block({
+  //     message: wp_liefer_loader,
+  //   });
+
+  //   let choosenDate = new Date($(this).val());
+  //   let weekDay = choosenDate.getDay();
+
+  //   wpLieferGenerateDeliveryTimes(weekDay, choosenDate);
+  // });
 
   /**
    *---------------------------------------------
    * Pickup date time picker
    *---------------------------------------------
    */
-  $("#wp_liefer_pickup_datepicker").datepicker({
-    dateFormat: "yy-mm-dd",
-    beforeShowDay: deliveryOffdays,
-    minDate: 0,
-    maxDate: "+1m",
-  });
+  // $("#wp_liefer_pickup_datepicker").datepicker({
+  //   dateFormat: "yy-mm-dd",
+  //   beforeShowDay: deliveryOffdays,
+  //   minDate: 0,
+  //   maxDate: "+1m",
+  // });
 
   // Pickup times on date select
-  $("#wp_liefer_pickup_datepicker").on("change", function () {
-    $("#wp_liefer_pickup_timepicker_field").show();
+  // $("#wp_liefer_pickup_datepicker").on("change", function () {
+  //   $("#wp_liefer_pickup_timepicker_field").show();
 
-    $("#wp_liefer_pickup_timepicker_field").block({
-      message: wp_liefer_loader,
-    });
+  //   $("#wp_liefer_pickup_timepicker_field").block({
+  //     message: wp_liefer_loader,
+  //   });
 
-    let choosenDate = new Date($(this).val());
-    let weekDay = choosenDate.getDay();
+  //   let choosenDate = new Date($(this).val());
+  //   let weekDay = choosenDate.getDay();
 
-    wpLieferGeneratePickupTimes(weekDay, choosenDate);
-  });
+  //   wpLieferGeneratePickupTimes(weekDay, choosenDate);
+  // });
 
   function wpLieferGeneratePickupTimes(weekDay, date) {
     const year = date.getFullYear();
@@ -242,7 +251,7 @@ jQuery(document).ready(function ($) {
 
         let slotInterval = 30; // in minutes
 
-        let preparationTime = 30; // in minutes
+        let preparationTime = 0; // in minutes
 
         if (deliveryTimes.length) {
           $("#wp_liefer_delivery_timepicker").val("");
@@ -295,4 +304,13 @@ jQuery(document).ready(function ($) {
       },
     });
   }
+
+  // Generate Pickup Times for current day
+  $("#wp_liefer_pickup_timepicker_field").block({
+    message: wp_liefer_loader,
+  });
+  let currentPickupDate = new Date();
+  let weekDay = currentPickupDate.getDay();
+
+  wpLieferGeneratePickupTimes(weekDay, currentPickupDate);
 });

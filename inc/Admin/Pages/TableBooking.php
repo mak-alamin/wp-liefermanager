@@ -18,8 +18,11 @@ class TableBooking
 
     function generate_options_with_carbon_fields()
     {
-        Container::make('theme_options', __('Tischbestellung'))
-            ->set_page_file('wp-liefermanager-tablebooking')
-            ->set_page_parent('wp-liefermanager');
+        Container::make('post_meta', __('Tischinformationen', 'wp-liefermanager'))
+            ->where('post_type', '=', 'wp-liefer-tables')
+            ->add_fields(array(
+                Field::make('text', 'wp_liefer_table_id', 'Tisch ID'),
+                Field::make('text', 'wp_liefer_table_product_url', 'Tischprodukt URL'),
+            ));
     }
 }

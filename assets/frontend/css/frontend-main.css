@@ -95,10 +95,10 @@ button.button.remove-tip {
 .pickup-datetime-picker .form-row {
   width: 50%;
 }
-#wp_liefer_delivery_timepicker_field,
+/* #wp_liefer_delivery_timepicker_field,
 #wp_liefer_pickup_timepicker_field {
   display: none;
-}
+} */
 @media (min-width: 922px) {
   #wp_liefer_delivery_option_field,
   #wp_liefer_pickup_option_field,

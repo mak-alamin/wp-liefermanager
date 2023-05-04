@@ -39,6 +39,61 @@ class Delivery
         add_action('wp_ajax_nopriv_wp_liefer_generate_pickup_times', array($this, 'wp_liefer_generate_pickup_times'));
     }
 
+    public function add_delivery_option()
+    {
+        echo "<div class='wp-liefer-delivery-info'>";
+
+        woocommerce_form_field('wp_liefer_delivery_option', array(
+            'type'      => 'radio',
+            'class'     => array('form-row-wide delivery-option'),
+            'options'   => array(
+                'delivery'  => __('Lieferung', 'wp-liefermanager'),
+                'pickup'    => __('Abholung', 'wp-liefermanager')
+            ),
+            'default'   => 'delivery',
+            'required'  => true,
+        ), WC()->checkout->get_value('wp_liefer_delivery_option'));
+
+        echo "<div class='delivery-datetime-picker'>";
+        // woocommerce_form_field('wp_liefer_delivery_datepicker', array(
+        //     'type'      => 'text',
+        //     'label' => 'Lieferdatum',
+        //     'placeholder' => 'Wählen Sie Lieferdatum',
+        //     'class'     => array('form-row-wide'),
+        //     'required'  => true,
+        // ), WC()->checkout->get_value('chosen_delivery_date'));
+
+        woocommerce_form_field('wp_liefer_delivery_timepicker', array(
+            'type'      => 'text',
+            'label' => 'Lieferzeit',
+            'placeholder' => 'Wählen Sie Lieferzeit',
+            'class'     => array('form-row-wide'),
+            'required'  => true,
+        ), WC()->checkout->get_value('chosen_delivery_time'));
+
+        echo "</div>";
+
+        echo "<div class='pickup-datetime-picker'>";
+        // woocommerce_form_field('wp_liefer_pickup_datepicker', array(
+        //     'type'      => 'text',
+        //     'label' => 'Abholdatum',
+        //     'placeholder' => 'Wählen Sie Abholdatum',
+        //     'class'     => array('form-row-wide'),
+        //     'required'  => true,
+        // ), WC()->checkout->get_value('chosen_pickup_date'));
+
+        woocommerce_form_field('wp_liefer_pickup_timepicker', array(
+            'type'      => 'text',
+            'label' => 'Abholzeit',
+            'placeholder' => 'Wählen Sie Abholzeit',
+            'class'     => array('form-row-wide'),
+            'required'  => true,
+        ), WC()->checkout->get_value('chosen_pickup_time'));
+
+        echo "</div>";
+        echo "</div>";
+    }
+
     public function wp_liefer_generate_delivery_times()
     {
         $weekday = intval($_REQUEST['weekday']);
@@ -103,61 +158,6 @@ class Delivery
             'openingTime' => $openingTime,
             'closingTime' => $closingTime
         ));
-    }
-
-    public function add_delivery_option()
-    {
-        echo "<div class='wp-liefer-delivery-info'>";
-
-        woocommerce_form_field('wp_liefer_delivery_option', array(
-            'type'      => 'radio',
-            'class'     => array('form-row-wide delivery-option'),
-            'options'   => array(
-                'delivery'  => __('Lieferung', 'wp-liefermanager'),
-                'pickup'    => __('Abholung', 'wp-liefermanager')
-            ),
-            'default'   => 'delivery',
-            'required'  => true,
-        ), WC()->checkout->get_value('wp_liefer_delivery_option'));
-
-        echo "<div class='delivery-datetime-picker'>";
-        woocommerce_form_field('wp_liefer_delivery_datepicker', array(
-            'type'      => 'text',
-            'label' => 'Lieferdatum',
-            'placeholder' => 'Wählen Sie Lieferdatum',
-            'class'     => array('form-row-wide'),
-            'required'  => true,
-        ), WC()->checkout->get_value('chosen_delivery_date'));
-
-        woocommerce_form_field('wp_liefer_delivery_timepicker', array(
-            'type'      => 'text',
-            'label' => 'Lieferzeit',
-            'placeholder' => 'Wählen Sie Lieferzeit',
-            'class'     => array('form-row-wide'),
-            'required'  => true,
-        ), WC()->checkout->get_value('chosen_delivery_time'));
-
-        echo "</div>";
-
-        echo "<div class='pickup-datetime-picker'>";
-        woocommerce_form_field('wp_liefer_pickup_datepicker', array(
-            'type'      => 'text',
-            'label' => 'Abholdatum',
-            'placeholder' => 'Wählen Sie Abholdatum',
-            'class'     => array('form-row-wide'),
-            'required'  => true,
-        ), WC()->checkout->get_value('chosen_pickup_date'));
-
-        woocommerce_form_field('wp_liefer_pickup_timepicker', array(
-            'type'      => 'text',
-            'label' => 'Abholzeit',
-            'placeholder' => 'Wählen Sie Abholzeit',
-            'class'     => array('form-row-wide'),
-            'required'  => true,
-        ), WC()->checkout->get_value('chosen_pickup_time'));
-
-        echo "</div>";
-        echo "</div>";
     }
 
     public function validate_delivery_option()

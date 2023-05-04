@@ -3,7 +3,7 @@ jQuery(document).ready(function ($) {
     var tipsType = jQuery("#tip_option").val();
     var tipsAmount = parseFloat(jQuery("#tip_amount").val());
 
-    if (!tipsType || !tipsAmount) {
+    if (!tipsAmount) {
       return;
     }
 

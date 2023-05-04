@@ -25,13 +25,28 @@ class Menus
 		if (!empty($this->admin_pages)) {
 			add_action('admin_menu', array($this, 'addAdminPages'));
 
-			add_action('admin_menu', array($this, 'addFoodExtraAdminPage'), 11);
+			// Add Post Types Pages
+			add_action('admin_menu', array($this, 'addTableBookingAdminPage'), 11);
+
+			add_action('admin_menu', array($this, 'addProductLayoutAdminPage'), 12);
+
+			add_action('admin_menu', array($this, 'addFoodExtraAdminPage'), 13);
 		}
 	}
 
 	private function setPages()
 	{
 		$this->admin_pages = require_once __DIR__ . '/config/pages.php';
+	}
+
+	public function addTableBookingAdminPage()
+	{
+		add_submenu_page('wp-liefermanager', _x('WP Liefermanager | Tischbestellung', 'wp-liefermanager'), _x('Tischbestellung', 'wp-liefermanager'), 'manage_options', 'edit.php?post_type=wp-liefer-tables');
+	}
+
+	public function addProductLayoutAdminPage()
+	{
+		add_submenu_page('wp-liefermanager', _x('WP Liefermanager | Produkt Layout', 'wp-liefermanager'), _x('Produkt Layout', 'wp-liefermanager'), 'manage_options', 'edit.php?post_type=wp-liefer-pr-layouts');
 	}
 
 	public function addFoodExtraAdminPage()

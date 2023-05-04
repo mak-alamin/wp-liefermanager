@@ -70,4 +70,7 @@
 .cf-multiselect__multi-value {
   display: inline-block;
 }
+.fit-content .cf-field__body {
+  max-width: fit-content;
+}
 /* Food Extra Options End */
