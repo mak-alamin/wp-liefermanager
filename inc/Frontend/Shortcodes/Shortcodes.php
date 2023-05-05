@@ -10,10 +10,6 @@ class Shortcodes
 {
     public function register()
     {
-        if (is_admin()) {
-            return;
-        }
-
         add_shortcode('zusatzstoffe', [$this, 'generate_additives_shortcode']);
 
         add_shortcode('allergene', [$this, 'generate_allergenes_shortcode']);

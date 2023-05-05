@@ -16,7 +16,6 @@ final class Init
     {
         return [
             Base\Assets::class,
-            // Frontend::class,
             // Base\Ajax::class,
             Admin\Menus::class,
             Admin\Pages\Settings::class,
@@ -30,6 +29,7 @@ final class Init
             Frontend\Extras\Extras::class,
             Frontend\Additives\Additives::class,
             Frontend\Shortcodes\Shortcodes::class,
+            Frontend\Shortcodes\ProductLayout::class,
             Frontend\Checkout\Tips::class,
             Frontend\Checkout\Delivery::class,
         ];

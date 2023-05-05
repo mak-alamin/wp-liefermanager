@@ -51,6 +51,51 @@ button.button.remove-tip {
   border-radius: 3px;
 }
 
+/* Products Layout */
+.wpliefer-product-layout .products.grid {
+  display: flex;
+  column-gap: 20px;
+  flex-wrap: wrap;
+}
+.wpliefer-product-layout .grid.column-1 .product {
+  width: 100%;
+}
+.wpliefer-product-layout .grid.column-2 .product {
+  width: 48%;
+}
+.wpliefer-product-layout .grid.column-3 .product {
+  width: 32%;
+}
+.wpliefer-product-layout .grid.column-4 .product {
+  width: 23%;
+}
+.wpliefer-product-layout .grid.column-5 .product {
+  width: 18%;
+}
+.wpliefer-product-layout .grid.column-6 .product {
+  width: 14%;
+}
+.wpliefer-product-layout .product {
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px 0px;
+  padding: 20px;
+  margin-bottom: 30px;
+  display: grid;
+  align-items: stretch;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(0, max-content);
+}
+.wpliefer-product-layout .product * {
+  grid-column-start: 2;
+}
+.wpliefer-product-layout .product img {
+  grid-column-start: 1;
+  grid-row-start: 1;
+  grid-row-end: 4;
+}
+.wpliefer-product-layout .button.add_to_cart {
+  text-align: center;
+}
+
 /* Checkout Delivery Info */
 .delivery-option label {
   display: inline-block;
