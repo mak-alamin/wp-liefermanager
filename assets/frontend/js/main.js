@@ -187,4 +187,29 @@
       $(".wp-liefer-total-price").text(totalPrice.toFixed(2));
     });
   });
+
+  /**
+   * ------------------------------
+   * Products Layout
+   * ------------------------------
+   */
+  $(function () {
+    $(".tab-menu.horizontal").on("click", "a", function (event) {
+      event.preventDefault();
+      $(this).closest(".tab-menu").find("li").removeClass("active");
+      $(this).parent().addClass("active");
+      var target = $(this).attr("href");
+      $(target).siblings(".tab-pane").removeClass("active");
+      $(target).addClass("active");
+    });
+
+    $(".tab-menu.vertical").on("click", "a", function (event) {
+      event.preventDefault();
+      $(this).closest(".tab-menu").find("li").removeClass("active");
+      $(this).parent().addClass("active");
+      var target = $(this).attr("href");
+      $(target).siblings(".tab-pane").removeClass("active");
+      $(target).addClass("active");
+    });
+  });
 })(jQuery);

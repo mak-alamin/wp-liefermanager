@@ -64,21 +64,28 @@ button.button.remove-tip {
   width: 48%;
 }
 .wpliefer-product-layout .grid.column-3 .product {
-  width: 32%;
+  width: 31%;
 }
 .wpliefer-product-layout .grid.column-4 .product {
   width: 23%;
+  padding: 10px;
 }
 .wpliefer-product-layout .grid.column-5 .product {
   width: 18%;
+  padding: 0px;
 }
 .wpliefer-product-layout .grid.column-6 .product {
   width: 14%;
+  padding: 0px;
 }
 .wpliefer-product-layout .product {
   box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px 0px;
   padding: 20px;
   margin-bottom: 30px;
+  text-align: center;
+}
+.wpliefer-product-layout .grid.column-1 .product,
+.wpliefer-product-layout .list .product {
   display: grid;
   align-items: stretch;
   grid-template-columns: 1fr 1fr;
@@ -94,6 +101,87 @@ button.button.remove-tip {
 }
 .wpliefer-product-layout .button.add_to_cart {
   text-align: center;
+  background-color: #ce1635;
+  color: #fff;
+  padding: 10px 30px;
+  border-radius: 20px;
+  width: max-content;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+}
+.tab-wrapper.cat-title-tabs.left_tabs {
+  display: flex;
+  gap: 30px;
+}
+.cat-title-tabs.left_tabs .tab-menu.vertical {
+  width: 20%;
+  padding: 20px;
+  background: #eff4f7;
+}
+.cat-title-tabs.left_tabs .tab-content {
+  width: 80%;
+}
+.wpliefer-product-layout .cat-title {
+  background: #f6f6f6;
+  padding: 5px 15px;
+  margin-bottom: 10px;
+}
+.wpliefer-product-layout .grid .product {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.wpliefer-product-layout .grid .product h3 {
+  font-size: 1.5rem;
+  margin-top: 18px;
+}
+.wpliefer-product-layout .tab-menu.horizontal {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  margin-bottom: 20px;
+  padding: 0;
+}
+.wpliefer-product-layout .tab-menu.vertical {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.wpliefer-product-layout .tab-menu.vertical li {
+  margin-bottom: 10px;
+}
+
+.wpliefer-product-layout .tab-menu.horizontal li {
+  margin-right: 10px;
+}
+
+.wpliefer-product-layout .tab-menu li a {
+  display: block;
+  background-color: #eee;
+  color: #333;
+  text-decoration: none;
+  padding: 5px 25px;
+  border-radius: 20px;
+}
+.wpliefer-product-layout .tab-menu li.active a {
+  background-color: #333;
+  color: #fff;
+}
+.wpliefer-product-layout .tab-content .tab-pane {
+  display: none;
+  transition: 0.3s all;
+}
+.wpliefer-product-layout .tab-content .tab-pane.active {
+  display: block;
 }
 
 /* Checkout Delivery Info */

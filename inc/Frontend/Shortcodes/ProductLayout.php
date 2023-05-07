@@ -25,17 +25,45 @@ class ProductLayout
 
         $catTitleView = carbon_get_post_meta($layoutId, 'wp_liefer_layout_cat_title_view');
 
+        $isTabCategories = $catTitleView == 'top_tabs' || $catTitleView == 'left_tabs';
+
+        $tabDirection = ($catTitleView == 'top_tabs') ? 'horizontal' : 'vertical';
+
         if (!empty($productCats)) {
             echo '<div class="wpliefer-product-layout">';
-            echo '<div class="cat-title-tabs">';
-            echo '</div>';
+
+            if ($isTabCategories) {
+                echo '<div class="tab-wrapper cat-title-tabs ' . $catTitleView . '">';
+
+                echo '<ul class="tab-menu ' . $tabDirection . '">';
+                foreach ($productCats as $key => $catID) {
+                    $term = get_term($catID);
+
+                    $activeClass = ($key == 0) ? 'active' : '';
+
+                    echo '<li class="' . $activeClass . '"><a href="#category-' . $catID . '">' . $term->name . '</a></li>';
+                }
+                echo '</ul>';
+            }
+
+            if ($isTabCategories) {
+                echo '<div class="tab-content">';
+            }
 
             $layoutClasses = ($layoutType == 'list') ? $layoutType : $layoutType . " column-" . $gridColumn;
 
-            echo '<div class="products ' . $layoutClasses . '">';
-
             foreach ($productCats as $key => $catID) {
                 $products = $this->get_products_for_category($catID);
+
+                $activeClass = ($isTabCategories && $key == 0) ? 'active' : '';
+
+                echo ' <div id="category-' . $catID . '" class="tab-pane ' . $activeClass . '">';
+
+                $term = get_term($catID);
+
+                echo ($catTitleView == 'cat_titles') ? '<h4 class="cat-title">' . $term->name . '</h4>' : '';
+
+                echo '<div class="products ' . $layoutClasses . '">';
 
                 foreach ($products as $key => $post) {
                     $product = wc_get_product($post->ID);
@@ -53,10 +81,17 @@ class ProductLayout
 
                     echo '</div>';
                 }
+                echo '</div>'; // .products
+                echo '</div>'; // .tab-pane
             }
 
-            echo '</div>';
-            echo '</div>';
+            if ($isTabCategories) {
+                echo '</div>'; // .tab-content
+
+                echo '</div>'; // .tab-wrapper
+            }
+
+            echo '</div>'; // .wpliefer-product-layout
         }
     }
 
