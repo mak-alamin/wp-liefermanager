@@ -53,7 +53,6 @@ button.button.remove-tip {
 
 /* Products Layout */
 .wpliefer-product-layout .products.grid {
-  display: flex;
   column-gap: 20px;
   flex-wrap: wrap;
 }
@@ -78,26 +77,26 @@ button.button.remove-tip {
   width: 14%;
   padding: 0px;
 }
+.wpliefer-product-layout .grid.column-4 .product h3,
+.wpliefer-product-layout .grid.column-5 .product h3,
+.wpliefer-product-layout .grid.column-6 .product h3 {
+  font-size: 1.1rem;
+  margin-top: 10px;
+}
+.wpliefer-product-layout .grid.column-4 .product .button.add_to_cart,
+.wpliefer-product-layout .grid.column-5 .product .button.add_to_cart,
+.wpliefer-product-layout .grid.column-6 .product .button.add_to_cart {
+  padding: 5px;
+}
 .wpliefer-product-layout .product {
   box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px 0px;
   padding: 20px;
   margin-bottom: 30px;
   text-align: center;
 }
-.wpliefer-product-layout .grid.column-1 .product,
-.wpliefer-product-layout .list .product {
-  display: grid;
-  align-items: stretch;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-rows: minmax(0, max-content);
-}
-.wpliefer-product-layout .product * {
-  grid-column-start: 2;
-}
 .wpliefer-product-layout .product img {
-  grid-column-start: 1;
-  grid-row-start: 1;
-  grid-row-end: 4;
+  object-fit: contain;
+  max-width: 100px;
 }
 .wpliefer-product-layout .button.add_to_cart {
   text-align: center;
@@ -110,19 +109,11 @@ button.button.remove-tip {
   display: block;
   width: 100%;
   max-width: 200px;
-  margin: 0 auto;
-}
-.tab-wrapper.cat-title-tabs.left_tabs {
-  display: flex;
-  gap: 30px;
+  margin: 0 auto 10px;
 }
 .cat-title-tabs.left_tabs .tab-menu.vertical {
-  width: 20%;
   padding: 20px;
   background: #eff4f7;
-}
-.cat-title-tabs.left_tabs .tab-content {
-  width: 80%;
 }
 .wpliefer-product-layout .cat-title {
   background: #f6f6f6;
@@ -135,13 +126,15 @@ button.button.remove-tip {
   justify-content: space-between;
   align-items: center;
 }
+.wpliefer-product-layout .product h3 {
+  margin-top: 20px;
+  font-size: 1.5rem;
+}
 .wpliefer-product-layout .grid .product h3 {
   font-size: 1.5rem;
   margin-top: 18px;
 }
 .wpliefer-product-layout .tab-menu.horizontal {
-  display: flex;
-  justify-content: flex-start;
   align-items: center;
   list-style: none;
   margin: 0;
@@ -149,7 +142,6 @@ button.button.remove-tip {
   padding: 0;
 }
 .wpliefer-product-layout .tab-menu.vertical {
-  display: flex;
   flex-direction: column;
   list-style: none;
   margin: 0;
@@ -163,7 +155,6 @@ button.button.remove-tip {
 .wpliefer-product-layout .tab-menu.horizontal li {
   margin-right: 10px;
 }
-
 .wpliefer-product-layout .tab-menu li a {
   display: block;
   background-color: #eee;
@@ -182,6 +173,50 @@ button.button.remove-tip {
 }
 .wpliefer-product-layout .tab-content .tab-pane.active {
   display: block;
+}
+.layout-additives p {
+  margin: 0;
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+  .tab-wrapper.cat-title-tabs.left_tabs {
+    display: flex;
+    gap: 30px;
+  }
+  .cat-title-tabs.left_tabs .tab-menu.vertical {
+    width: 20%;
+  }
+  .cat-title-tabs.left_tabs .tab-content {
+    width: 80%;
+  }
+  .wpliefer-product-layout .tab-menu {
+    display: flex;
+  }
+}
+@media (min-width: 768px) {
+  .wpliefer-product-layout .products.grid {
+    display: flex;
+  }
+  .wpliefer-product-layout .grid.column-1 .product,
+  .wpliefer-product-layout .list .product {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .wpliefer-product-layout .grid .product {
+    width: 100% !important;
+  }
+  .wpliefer-product-layout .tab-menu.vertical {
+    margin-bottom: 20px;
+  }
+  .wpliefer-product-layout ul.tab-menu li {
+    display: inline-block;
+  }
 }
 
 /* Checkout Delivery Info */

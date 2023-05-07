@@ -194,16 +194,7 @@
    * ------------------------------
    */
   $(function () {
-    $(".tab-menu.horizontal").on("click", "a", function (event) {
-      event.preventDefault();
-      $(this).closest(".tab-menu").find("li").removeClass("active");
-      $(this).parent().addClass("active");
-      var target = $(this).attr("href");
-      $(target).siblings(".tab-pane").removeClass("active");
-      $(target).addClass("active");
-    });
-
-    $(".tab-menu.vertical").on("click", "a", function (event) {
+    $(".cat-title-tabs .tab-menu").on("click", "a", function (event) {
       event.preventDefault();
       $(this).closest(".tab-menu").find("li").removeClass("active");
       $(this).parent().addClass("active");
