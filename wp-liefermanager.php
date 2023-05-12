@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: WP Liefermanager
  * Plugin URI: https: //example.com/plugins/the-basics/
@@ -55,6 +56,16 @@ function wp_liefermanager_initial_loads()
 	load_plugin_textdomain('wp-liefermanager', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 add_action('plugins_loaded', 'wp_liefermanager_initial_loads');
+
+/**
+ * Do Stuff on plugin activation
+ */
+add_action('activate_' . plugin_basename(__FILE__), function () {
+	// Create the uploads folder
+	// if (!is_dir(WP_CONTENT_DIR . '/uploads/wp-liefermanager')) {
+	// 	wp_mkdir_p(WP_CONTENT_DIR . '/uploads/wp-liefermanager');
+	// }
+});
 
 
 /**

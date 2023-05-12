@@ -8,6 +8,39 @@ namespace Inc\Base;
 
 class Common
 {
+    public function get_products_for_category($category_id)
+    {
+        $args = array(
+            'post_type' => 'product',
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'product_cat',
+                    'field' => 'term_id',
+                    'terms' => intval($category_id),
+                ),
+            ),
+        );
+        $products = get_posts($args);
+
+        return $products;
+    }
+
+    function generate_add_to_cart_button($product_id)
+    {
+        $product = wc_get_product($product_id);
+
+        $button_text = __('Bestellen', 'wp-liefermanager');
+
+        $button_url = get_permalink($product->get_id());
+
+        // if ($product->is_type('variable')) {
+        // } else {
+        //     $button_url = esc_url($product->add_to_cart_url());
+        // }
+
+        return '<a href="' . $button_url . '" class="button add_to_cart">' . $button_text . '</a>';
+    }
+
     public function show_short_description($post_id)
     {
         $short_description = get_post_field('post_excerpt', $post_id);

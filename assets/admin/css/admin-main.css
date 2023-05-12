@@ -74,3 +74,7 @@
   max-width: fit-content;
 }
 /* Food Extra Options End */
+
+#qr_code img {
+  max-width: 100%;
+}

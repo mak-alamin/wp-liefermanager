@@ -16,6 +16,9 @@ button.button.remove-tip {
   align-items: center;
   flex-wrap: wrap;
 }
+.layout-additives .additives {
+  justify-content: center;
+}
 .additives ul {
   display: flex;
   flex-wrap: wrap;
@@ -43,6 +46,10 @@ button.button.remove-tip {
 .food_extras input,
 .food_extras label {
   cursor: pointer;
+}
+.wp_liefer_extra_option {
+  display: inline-block;
+  margin-right: 10px;
 }
 .wp_liefer_extra_option input.change_quantity {
   max-width: 60px;
@@ -177,7 +184,9 @@ button.button.remove-tip {
 .layout-additives p {
   margin: 0;
 }
-
+.layout-additives .additives img {
+  max-width: 40px;
+}
 /* Desktop */
 @media (min-width: 992px) {
   .tab-wrapper.cat-title-tabs.left_tabs {
@@ -276,6 +285,153 @@ button.button.remove-tip {
   }
 }
 
+/* The Modal (background) */
+.admin-bar #productModal {
+  margin-top: 32px;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  width: 96%;
+  height: 100%;
+  max-width: 1000px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+.modal .close {
+  color: #333;
+  font-size: 25px;
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  border-radius: 50%;
+  display: flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+}
+.modal .close:hover,
+.modal .close:focus {
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal-body {
+  padding: 2px 16px;
+  height: 100%;
+  overflow: hidden;
+}
+iframe#productEmbed {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 30px 0;
+}
+.woocommerce #content div.product div.images,
+.woocommerce div.product div.images,
+.woocommerce-page #content div.product div.images,
+.woocommerce-page div.product div.images {
+  float: none;
+  width: 100%;
+}
+.woocommerce div.product div.images.woocommerce-product-gallery {
+  width: 100%;
+}
+.wp_liefer_extra_option label {
+  font-size: 13px;
+}
+.woocommerce div.product form.cart div.quantity {
+  float: none;
+}
+@media (max-width: 1024px) {
+  .elementor.product .elementor-section .elementor-container {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .elementor.product .elementor-section .elementor-container {
+    flex-wrap: wrap;
+  }
+}
+#productModal header,
+#productModal .header,
+#productModal footer,
+#productModal .footer,
+#productModal .elementor-location-header,
+#productModal .elementor-top-section,
+#productModal .site-header,
+#productModal .site-footer,
+#productModal .related.products,
+#productModal .woocommerce-store-notice,
+#productModal .demo_store {
+  display: none;
+}
+#productModal .ast-separate-container .ast-woocommerce-container {
+  padding: 0;
+}
+#productModal .woocommerce-tabs.wc-tabs-wrapper {
+  display: none;
+}
+#productModal .product {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+#productModal div {
+  padding: 0 !important;
+}
+#productModal .woocommerce-product-gallery {
+  width: 30%;
+}
+#productModal button.single_add_to_cart_button {
+  margin-bottom: 20px;
+}
 /* Jquery Block */
 .blockUI.blockMsg.blockElement {
   border: 0 !important;

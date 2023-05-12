@@ -11,6 +11,20 @@ class ProductLayout extends \Inc\Base\Common
     public function register()
     {
         add_shortcode('wpliefermanager', array($this, 'add_product_layout_shortcode'));
+
+        add_action('wp_ajax_wpliefer_get_product_html', array($this, 'get_product_html'));
+        add_action('wp_ajax_nopriv_wpliefer_get_product_html', array($this, 'get_product_html'));
+    }
+
+    public function get_product_html()
+    {
+        $product_url = $_REQUEST['productUrl'];
+
+        $response = wp_remote_get($product_url); // make a remote GET request to the product URL
+
+        $product_html = wp_remote_retrieve_body($response); // retrieve the HTML content from the response
+
+        wp_send_json($product_html);
     }
 
     public function add_product_layout_shortcode($atts)
@@ -80,15 +94,16 @@ class ProductLayout extends \Inc\Base\Common
 
                 echo '<div class="layout-additives">';
 
-                echo '<p>';
+                echo '<h3>' . $post->post_title . '</h3>';
+
+                echo '<p class="short-desc">';
                 $this->show_short_description($post->ID);
                 echo '</p>';
 
                 $this->show_additives($post->ID);
                 echo '</div>';
 
-                echo '<div class="product-info">';
-                echo '<h3>' . $post->post_title . '</h3>';
+                echo '<div class="order-button">';
                 echo '<p>' . $product->get_price_html() . '</p>';
 
                 echo $this->generate_add_to_cart_button($post->ID);
@@ -107,37 +122,5 @@ class ProductLayout extends \Inc\Base\Common
         }
 
         echo '</div>'; // .wpliefer-product-layout
-    }
-
-    public function get_products_for_category($category_id)
-    {
-        $args = array(
-            'post_type' => 'product',
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'product_cat',
-                    'field' => 'term_id',
-                    'terms' => intval($category_id),
-                ),
-            ),
-        );
-        $products = get_posts($args);
-
-        return $products;
-    }
-
-    function generate_add_to_cart_button($product_id)
-    {
-        $product = wc_get_product($product_id);
-
-        if ($product->is_type('variable')) {
-            $button_text = __('Select options', 'woocommerce');
-            $button_url = get_permalink($product->get_id());
-        } else {
-            $button_text = __('Add to cart', 'woocommerce');
-            $button_url = esc_url($product->add_to_cart_url());
-        }
-
-        return '<a href="' . $button_url . '" class="button add_to_cart">' . $button_text . '</a>';
     }
 }
