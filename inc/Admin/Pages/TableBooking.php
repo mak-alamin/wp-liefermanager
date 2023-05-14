@@ -33,10 +33,12 @@ class TableBooking
 
                 $table_data = $_POST['carbon_fields_compact_input'];
 
+                $tableId = isset($table_data['_wp_liefer_table_id']) ? $table_data['_wp_liefer_table_id'] : 0;
+
                 $product_url = isset($table_data['_wp_liefer_table_product_url']) ? $table_data['_wp_liefer_table_product_url'] : site_url();
 
                 $data = array(
-                    'table_product_url' => $product_url . '?table_id=' . $post_id
+                    'table_product_url' => $product_url . '?table_id=' . $tableId
                 );
 
                 wp_liefer_generate_table_qr_code($post_id, $data);

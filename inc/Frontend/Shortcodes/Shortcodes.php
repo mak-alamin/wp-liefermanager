@@ -20,11 +20,13 @@ class Shortcodes
     public function generate_shortcode_table($options)
     {
         if (empty($options)) {
-            return;
+            return '';
         }
 
-        echo '<div class="additives">';
-        echo '<table>';
+        $html = '';
+
+        $html .= '<div class="additives">';
+        $html .= '<table>';
 
         foreach ($options as $key => $option) {
 
@@ -32,39 +34,40 @@ class Shortcodes
 
             $description = isset($option['description']) ? $option['description'] : '';
 
-            echo '<tr>';
+            $html .= '<tr>';
 
-            echo '<td><img src="' . $icon . '" /></td>';
+            $html .= '<td><img src="' . $icon . '" /></td>';
 
-            echo '<td> <strong> ' . $option['fullname'] . ' </strong>' . $description . '</td>';
+            $html .= '<td> <strong> ' . $option['fullname'] . ' </strong>' . $description . '</td>';
 
-            echo '</tr>';
+            $html .= '</tr>';
         }
 
-        echo '</table>';
+        $html .= '</table>';
 
-        echo '</div>';
+        $html .= '</div>';
+
+        return $html;
     }
 
     public function generate_foodtype_shortcode()
     {
-
         $food_types = carbon_get_theme_option('wp_liefer_mildness_foodtype');
 
-        $this->generate_shortcode_table($food_types);
+        return $this->generate_shortcode_table($food_types);
     }
 
     public function generate_additives_shortcode()
     {
         $additives = carbon_get_theme_option('wp_liefer_additives');
 
-        $this->generate_shortcode_table($additives);
+        return $this->generate_shortcode_table($additives);
     }
 
     public function generate_allergenes_shortcode()
     {
         $allergenes = carbon_get_theme_option('wp_liefer_alergenes');
 
-        $this->generate_shortcode_table($allergenes);
+        return $this->generate_shortcode_table($allergenes);
     }
 }

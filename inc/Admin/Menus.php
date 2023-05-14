@@ -14,10 +14,6 @@ class Menus
 
 	public function register()
 	{
-		if (!is_admin()) {
-			return;
-		}
-
 		$this->pages_callbacks = new Callbacks\PagesCallbacks();
 
 		$this->setPages();

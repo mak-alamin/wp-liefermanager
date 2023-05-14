@@ -10,10 +10,8 @@ class Tips
 {
     public function register()
     {
-        if (!is_admin()) {
-            // Check cart
-            add_action('init', array($this, 'check_empty_cart'));
-        }
+        // Check cart
+        add_action('init', array($this, 'check_empty_cart'));
 
         // Generate tip fields
         add_action('woocommerce_after_order_notes', array($this, 'add_tip_option'));
@@ -34,6 +32,12 @@ class Tips
 
     public function check_empty_cart()
     {
+        // Check if admin
+        if (empty(WC()->cart)) {
+            return;
+        }
+
+        // Check if cart empty
         if (WC()->cart->get_cart_contents_count() == 0) {
             WC()->session->set('tip_amount', 0);
         }
