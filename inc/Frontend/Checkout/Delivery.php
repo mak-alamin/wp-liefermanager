@@ -41,6 +41,12 @@ class Delivery
 
     public function add_delivery_option()
     {
+        $tableId = intval(WC()->session->get('table_id'));
+
+        if ($tableId) {
+            return;
+        }
+
         echo "<div class='wp-liefer-delivery-info'>";
 
         woocommerce_form_field('wp_liefer_delivery_option', array(
@@ -162,6 +168,12 @@ class Delivery
 
     public function validate_delivery_option()
     {
+        $tableId = intval(WC()->session->get('table_id'));
+
+        if ($tableId) {
+            return;
+        }
+
         if (empty($_POST['wp_liefer_delivery_option'])) {
             wc_add_notice(__('Bitte wählen Sie die Liefer- oder Abholoption.', 'wp-liefermanager'), 'error');
         }
@@ -232,6 +244,12 @@ class Delivery
     public function display_delivery_pickup_info($order)
     {
         $order_id = is_object($order) ? $order->get_id() : $order;
+
+        $tableId = get_post_meta($order_id, 'table_id', true);
+
+        if ($tableId) {
+            return;
+        }
 
         $order = wc_get_order($order_id);
 

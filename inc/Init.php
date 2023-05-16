@@ -28,6 +28,7 @@ final class Init
             Admin\ProductMeta\ProductMeta::class,
             Frontend\Extras\Extras::class,
             Frontend\Additives\Additives::class,
+            Frontend\TableInfo\TableInfo::class,
             Frontend\Shortcodes\Shortcodes::class,
             Frontend\Shortcodes\ProductLayout::class,
             Frontend\Checkout\Tips::class,

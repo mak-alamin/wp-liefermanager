@@ -37,6 +37,13 @@ class ProductLayout extends \Inc\Base\Common
             return '';
         }
 
+        $tableId = (isset($_GET['table_id'])) ? $_GET['table_id'] : 0;
+
+        if ($tableId) {
+            WC()->session->set('table_id', $tableId);
+        }
+
+
         $layoutType = carbon_get_post_meta($layoutId, 'wp_liefer_product_layout_type');
 
         $gridColumn = carbon_get_post_meta($layoutId, 'wp_liefer_layout_grid_column');

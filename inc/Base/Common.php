@@ -38,7 +38,9 @@ class Common
         //     $button_url = esc_url($product->add_to_cart_url());
         // }
 
-        return '<a href="' . $button_url . '" class="button add_to_cart">' . $button_text . '</a>';
+        $tableInfo = (isset($_GET['table_id'])) ? 'data-table_id=' . $_GET['table_id'] : '';
+
+        return '<a href="' . $button_url . '" ' . $tableInfo . ' class="button add_to_cart">' . $button_text . '</a>';
     }
 
     public function show_short_description($post_id)

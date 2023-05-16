@@ -204,9 +204,15 @@
     });
   });
 
+  var tableId = new URLSearchParams(window.location.search).get("table_id");
+
+  var tableInfo = tableId ? 'data-table_id="' + tableId + '"' : "";
+
   // Product Popup
   var product_modal =
-    '<div id="productModal" class="modal"><div class="modal-content"><span class="close">&times;</span><div class="modal-body"><iframe src="" id="productEmbed"></iframe></div></div></div>';
+    '<div id="productModal" class="modal"><div class="modal-content"><span class="close">&times;</span><div class="modal-body"><iframe src="" id="productEmbed" ' +
+    tableInfo +
+    "></iframe></div></div></div>";
 
   $("body").prepend(product_modal);
 
@@ -240,6 +246,17 @@
     if (addedToCart.length) {
       $("body").unblock();
       $("#productModal").hide();
+    }
+
+    if ($("iframe#productEmbed").data("table_id")) {
+      var tableId = $("iframe#productEmbed").data("table_id");
+
+      var tableInput =
+        '<input type="hidden" name="table_id" value="' + tableId + '" />';
+
+      $($("iframe#productEmbed").contents().find("form.cart")[0]).append(
+        tableInput
+      );
     }
 
     $(".wpliefer-product-layout .product").unblock();
