@@ -179,17 +179,17 @@ class Delivery
         }
 
         if ($_POST['wp_liefer_delivery_option'] == 'delivery') {
-            if (empty($_POST['wp_liefer_delivery_datepicker'])) {
-                wc_add_notice(__('Bitte wählen Sie ein Lieferdatum aus.', 'wp-liefermanager'), 'error');
-            }
+            // if (empty($_POST['wp_liefer_delivery_datepicker'])) {
+            //     wc_add_notice(__('Bitte wählen Sie ein Lieferdatum aus.', 'wp-liefermanager'), 'error');
+            // }
 
             if (empty($_POST['wp_liefer_delivery_timepicker'])) {
                 wc_add_notice(__('Bitte wählen Sie eine Lieferzeit aus.', 'wp-liefermanager'), 'error');
             }
         } else if ($_POST['wp_liefer_delivery_option'] == 'pickup') {
-            if (empty($_POST['wp_liefer_pickup_datepicker'])) {
-                wc_add_notice(__('Bitte wählen Sie ein Abholdatum aus.', 'wp-liefermanager'), 'error');
-            }
+            // if (empty($_POST['wp_liefer_pickup_datepicker'])) {
+            //     wc_add_notice(__('Bitte wählen Sie ein Abholdatum aus.', 'wp-liefermanager'), 'error');
+            // }
 
             if (empty($_POST['wp_liefer_pickup_timepicker'])) {
                 wc_add_notice(__('Bitte wählen Sie eine Abholzeit aus.', 'wp-liefermanager'), 'error');

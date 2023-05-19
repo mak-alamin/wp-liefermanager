@@ -432,6 +432,19 @@ iframe#productEmbed {
 #productModal button.single_add_to_cart_button {
   margin-bottom: 20px;
 }
+
+/* Checkout */
+.checkout-from-table .woocommerce-billing-fields {
+  display: none;
+}
+.checkout-from-table .woocommerce .col2-set .col-1,
+.checkout-from-table.woocommerce-page .col2-set .col-1,
+.checkout-from-table .woocommerce .col2-set .col-2,
+.checkout-from-table.woocommerce-page .col2-set .col-2 {
+  width: 100%;
+  float: none;
+}
+
 /* Jquery Block */
 .blockUI.blockMsg.blockElement {
   border: 0 !important;
