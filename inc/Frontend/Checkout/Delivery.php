@@ -27,6 +27,8 @@ class Delivery
 
         add_action('woocommerce_admin_order_data_after_billing_address', array($this, 'display_delivery_pickup_info'), 10, 1);
 
+        add_action('woocommerce_email_after_order_table', array($this, 'display_delivery_pickup_info'));
+
         // Enqueue delivery/pickup scripts
         add_action('wp_enqueue_scripts', array($this, 'enqueue_delivery_scripts'));
 

@@ -444,6 +444,9 @@ iframe#productEmbed {
   width: 100%;
   float: none;
 }
+button.button.calculate-tip {
+  margin-right: 10px;
+}
 
 /* Jquery Block */
 .blockUI.blockMsg.blockElement {
