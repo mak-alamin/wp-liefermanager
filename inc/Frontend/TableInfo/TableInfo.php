@@ -73,6 +73,8 @@ class TableInfo
         $tableId = isset($_REQUEST['table_id']) ? $_REQUEST['table_id'] : 0;
 
         $cart_item_data['table_id'] = $tableId;
+
+        return $cart_item_data;
     }
 
     // Show table info to checkout

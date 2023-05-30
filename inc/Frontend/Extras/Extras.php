@@ -116,34 +116,7 @@ class Extras
         }
     }
 
-    public function display_extra_data_on_cart($item_data, $cart_item)
-    {
-        if (isset($cart_item['global_extras']) && !empty($cart_item['global_extras'])) {
-            foreach ($cart_item['global_extras'] as $key => $option) {
-                if (isset($option['option_name'])) {
-                    $item_data[] = array(
-                        // $option['quantity']  . ' x ' .
-                        'key'   => $option['option_name'],
-                        'value' => ' (' . intval($option['quantity']) * floatval($option['option_price']) . get_woocommerce_currency_symbol() . ')',
-                    );
-                }
-            }
-        }
-
-        if (isset($cart_item['product_extras']) && !empty($cart_item['product_extras'])) {
-            foreach ($cart_item['product_extras'] as $key => $option) {
-                if (isset($option['option_name'])) {
-                    $item_data[] = array(
-                        'key'   => $option['option_name'],
-                        'value' => ' (' . intval($option['quantity']) * floatval($option['option_price']) . get_woocommerce_currency_symbol() . ')',
-                    );
-                }
-            }
-        }
-
-        return $item_data;
-    }
-
+    // Add extra data to cart item when add to cart
     public function add_extra_data_to_cart_item($cart_item_data, $product_id)
     {
         $choosen_global_options = isset($_REQUEST['global_extra_options']) ? $_REQUEST['global_extra_options'] : null;
@@ -196,9 +169,38 @@ class Extras
                     $cart_item_data['product_extras'][] = $options;
                 }
             }
-        }
+        }     
 
         return $cart_item_data;
+    }
+
+    // Display extra data on cart
+    public function display_extra_data_on_cart($item_data, $cart_item)
+    {
+        if (isset($cart_item['global_extras']) && !empty($cart_item['global_extras'])) {
+            foreach ($cart_item['global_extras'] as $key => $option) {
+                if (isset($option['option_name'])) {
+                    $item_data[] = array(
+                        // $option['quantity']  . ' x ' .
+                        'key'   => $option['option_name'],
+                        'value' => ' (' . intval($option['quantity']) * floatval($option['option_price']) . get_woocommerce_currency_symbol() . ')',
+                    );
+                }
+            }
+        }
+
+        if (isset($cart_item['product_extras']) && !empty($cart_item['product_extras'])) {
+            foreach ($cart_item['product_extras'] as $key => $option) {
+                if (isset($option['option_name'])) {
+                    $item_data[] = array(
+                        'key'   => $option['option_name'],
+                        'value' => ' (' . intval($option['quantity']) * floatval($option['option_price']) . get_woocommerce_currency_symbol() . ')',
+                    );
+                }
+            }
+        }
+
+        return $item_data;
     }
 
     public function generate_extra_options()
