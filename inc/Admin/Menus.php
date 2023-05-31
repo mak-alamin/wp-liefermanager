@@ -27,6 +27,8 @@ class Menus
 			add_action('admin_menu', array($this, 'addProductLayoutAdminPage'), 12);
 
 			add_action('admin_menu', array($this, 'addFoodExtraAdminPage'), 13);
+			
+			add_action('admin_menu', array($this, 'addFoodBranchesAdminPage'), 14);
 		}
 	}
 
@@ -48,6 +50,17 @@ class Menus
 	public function addFoodExtraAdminPage()
 	{
 		add_submenu_page('wp-liefermanager', _x('WP Liefermanager | Extras', 'wp-liefermanager'), _x('Extras', 'wp-liefermanager'), 'manage_options', 'edit.php?post_type=wp-liefer-extras');
+	}
+	
+	public function addFoodBranchesAdminPage()
+	{
+		add_submenu_page(
+            'wp-liefermanager',
+            __('Filialen', 'wp-liefermanager'),
+            __('Filialen', 'wp-liefermanager'),
+            'manage_options',
+            'edit-tags.php?taxonomy=wp_liefer_branches&post_type=product'
+        );
 	}
 
 	public function addAdminPages()

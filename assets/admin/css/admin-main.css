@@ -73,6 +73,9 @@
 .fit-content .cf-field__body {
   max-width: fit-content;
 }
+.cf-field__head label.cf-field__label {
+  max-width: 220px;
+}
 /* Food Extra Options End */
 
 #qr_code img {

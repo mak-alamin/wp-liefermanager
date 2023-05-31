@@ -8,8 +8,9 @@ namespace Inc\Admin\Pages;
 
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
+use Inc\Base\Common;
 
-class Settings
+class Settings extends Common
 {
     public function register()
     {
@@ -18,42 +19,17 @@ class Settings
 
     function generate_options_with_carbon_fields()
     {
-        $weekdays = array(
-            'montag' => __('Montag', 'wp-liefermanager'),
-            'dienstag' => __('Dienstag', 'wp-liefermanager'),
-            'mittwoch' => __('Mittwoch', 'wp-liefermanager'),
-            'donnerstag' => __('Donnerstag', 'wp-liefermanager'),
-            'freitag' => __('Freitag', 'wp-liefermanager'),
-            'samstag' => __('Samstag', 'wp-liefermanager'),
-            'sontag' => __('Sontag', 'wp-liefermanager'),
-        );
-
-        $opening_hour_fields = array();
-        $delivery_time_fields = array();
-
-        foreach ($weekdays as $slug => $weekday) {
-            $opening_hour_fields[] = Field::make('complex', 'wp_liefer_' . $slug . '_opening_hours', $weekday)
-                ->add_fields(array(
-                    Field::make('time', 'open_at', __('Geöffnet', 'wp-liefermanager')),
-                    Field::make('time', 'close_at', __('Geschlossen', 'wp-liefermanager')),
-                ));
-
-            $delivery_time_fields[] = Field::make('complex', 'wp_liefer_' . $slug . '_delivery_times', $weekday)
-                ->add_fields(array(
-                    Field::make('time', 'open_at', __('Geöffnet', 'wp-liefermanager')),
-                    Field::make('time', 'close_at', __('Geschlossen', 'wp-liefermanager'))
-                ));
-        }
+        $opening_hours = $this->generate_opening_hours();
 
         Container::make('theme_options', __('Settings'))
             ->set_page_file('wp-liefermanager-settings')
             ->set_page_parent('wp-liefermanager')
 
             // Opening Hours
-            ->add_tab(__('Öffnungszeiten', 'wp-liefermanager'), $opening_hour_fields)
+            ->add_tab(__('Öffnungszeiten', 'wp-liefermanager'), $opening_hours['opening_hours'])
 
             //Delivery Times
-            ->add_tab(__('Lieferzeiten', 'wp-liefermanager'), $delivery_time_fields)
+            ->add_tab(__('Lieferzeiten', 'wp-liefermanager'), $opening_hours['delivery_times'])
 
             // Tips
             ->add_tab(__('Trinkgeld', 'wp-liefermanager'), array(

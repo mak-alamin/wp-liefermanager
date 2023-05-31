@@ -6,8 +6,45 @@
 
 namespace Inc\Base;
 
+use Carbon_Fields\Field;
+
 class Common
 {
+    public function generate_opening_hours()
+    {
+        $weekdays = array(
+            'montag' => __('Montag', 'wp-liefermanager'),
+            'dienstag' => __('Dienstag', 'wp-liefermanager'),
+            'mittwoch' => __('Mittwoch', 'wp-liefermanager'),
+            'donnerstag' => __('Donnerstag', 'wp-liefermanager'),
+            'freitag' => __('Freitag', 'wp-liefermanager'),
+            'samstag' => __('Samstag', 'wp-liefermanager'),
+            'sontag' => __('Sontag', 'wp-liefermanager'),
+        );
+
+        $opening_hour_fields = array();
+        $delivery_time_fields = array();
+
+        foreach ($weekdays as $slug => $weekday) {
+            $opening_hour_fields[] = Field::make('complex', 'wp_liefer_' . $slug . '_opening_hours', $weekday)
+                ->add_fields(array(
+                    Field::make('time', 'open_at', __('Geöffnet', 'wp-liefermanager')),
+                    Field::make('time', 'close_at', __('Geschlossen', 'wp-liefermanager')),
+                ));
+
+            $delivery_time_fields[] = Field::make('complex', 'wp_liefer_' . $slug . '_delivery_times', $weekday)
+                ->add_fields(array(
+                    Field::make('time', 'open_at', __('Geöffnet', 'wp-liefermanager')),
+                    Field::make('time', 'close_at', __('Geschlossen', 'wp-liefermanager'))
+                ));
+        }
+
+        return array(
+            'opening_hours' => $opening_hour_fields,
+            'delivery_times' => $delivery_time_fields
+        );
+    }
+
     public function get_products_for_category($category_id)
     {
         $args = array(
