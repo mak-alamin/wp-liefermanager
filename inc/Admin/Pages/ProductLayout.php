@@ -128,7 +128,7 @@ class ProductLayout
     function custom_post_type_column_data($column, $post_id)
     {
         if ('shortcode' === $column) {
-            $shortcode = '[wpliefermanager id="' . $post_id . '"]';
+            $shortcode = '[wpliefermanager layout_id="' . $post_id . '"]';
             echo $shortcode;
         }
     }

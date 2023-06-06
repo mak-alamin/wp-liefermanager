@@ -29,20 +29,17 @@ class ProductLayout extends \Inc\Base\Common
 
     public function add_product_layout_shortcode($atts)
     {
-        $layoutId = isset($atts['id']) ? $atts['id'] : 0;
+        $layoutId = isset($atts['layout_id']) ? $atts['layout_id'] : 0;
+
+        $branchId = isset($atts['branch_id']) ? $atts['branch_id'] : 0;
 
         $productCats = carbon_get_post_meta($layoutId, 'wp_liefer_layout_product_categories');
-
-        if (empty($productCats)) {
-            return '';
-        }
 
         $tableId = (isset($_GET['table_id'])) ? $_GET['table_id'] : 0;
 
         if ($tableId) {
             WC()->session->set('table_id', $tableId);
         }
-
 
         $layoutType = carbon_get_post_meta($layoutId, 'wp_liefer_product_layout_type');
 
@@ -62,13 +59,17 @@ class ProductLayout extends \Inc\Base\Common
             $tabDirection = ($catTitleView == 'top_tabs') ? 'horizontal' : 'vertical';
 
             $html .= '<ul class="tab-menu ' . $tabDirection . '">';
-            foreach ($productCats as $key => $catID) {
-                $term = get_term($catID);
 
-                $activeClass = ($key == 0) ? 'active' : '';
+            if (!empty($productCats)) {
+                foreach ($productCats as $key => $catID) {
+                    $term = get_term($catID);
 
-                $html .= '<li class="' . $activeClass . '"><a href="#category-' . $catID . '">' . $term->name . '</a></li>';
+                    $activeClass = ($key == 0) ? 'active' : '';
+
+                    $html .= '<li class="' . $activeClass . '"><a href="#category-' . $catID . '">' . $term->name . '</a></li>';
+                }
             }
+
             $html .= '</ul>';
         }
 
@@ -78,50 +79,74 @@ class ProductLayout extends \Inc\Base\Common
 
         $layoutClasses = ($layoutType == 'list') ? $layoutType : $layoutType . " column-" . $gridColumn;
 
-        foreach ($productCats as $key => $catID) {
-            $products = $this->get_products_for_category($catID);
-
-            $activeClass = ($isTabCategories && $key == 0) ? 'active' : '';
-
-            $html .= ' <div id="category-' . $catID . '" class="tab-pane ' . $activeClass . '">';
-
-            $term = get_term($catID);
-
-            $html .= ($catTitleView == 'cat_titles') ? '<h4 class="cat-title">' . $term->name . '</h4>' : '';
-
+        if ($catTitleView == 'no_titles') {
             $html .= '<div class="products ' . $layoutClasses . '">';
+        }
 
-            foreach ($products as $key => $post) {
-                $product = wc_get_product($post->ID);
+        if (!empty($productCats)) {
+            foreach ($productCats as $key => $catID) {
+                $products = $this->get_products($catID, $branchId);
 
-                $title = get_the_title($post->ID);
-                $link = get_the_permalink($post->ID);
-                $image = get_the_post_thumbnail($post->ID, 'thumbnail');
+                $activeClass = ($isTabCategories && $key == 0) ? 'active' : '';
 
-                $html .= '<div class="product">';
-                $html .= '<figure>' . $image . '</figure>';
+                if ($isTabCategories) {
+                    $html .= ' <div id="category-' . $catID . '" class="tab-pane ' . $activeClass . '">';
+                }
 
-                $html .= '<div class="layout-additives">';
+                $term = get_term($catID);
 
-                $html .= '<h3>' . $post->post_title . '</h3>';
+                $html .= ($catTitleView == 'cat_titles') ? '<h4 class="cat-title">' . $term->name . '</h4>' : '';
 
-                $html .= '<p class="short-desc">';
-                $html .= $this->show_short_description($post->ID);
-                $html .= '</p>';
+                if ($catTitleView != 'no_titles') {
+                    $html .= '<div class="products ' . $layoutClasses . '">';
+                }
 
-                $html .= $this->show_additives($post->ID);
-                $html .= '</div>';
+                if (empty($products)) {
+                    $html .= '<p> Kein Produkt gefunden. </p>';
+                } else {
+                    foreach ($products as $key => $post) {
+                        $product = wc_get_product($post->ID);
 
-                $html .= '<div class="order-button">';
-                $html .= '<p>' . $product->get_price_html() . '</p>';
+                        $title = get_the_title($post->ID);
+                        $link = get_the_permalink($post->ID);
+                        $image = get_the_post_thumbnail($post->ID, 'thumbnail');
 
-                $html .= $this->generate_add_to_cart_button($post->ID);
+                        $html .= '<div class="product">';
+                        $html .= '<figure>' . $image . '</figure>';
 
-                $html .= '</div>'; //product-info
-                $html .= '</div>'; //product
+                        $html .= '<div class="layout-additives">';
+
+                        $html .= '<h3>' . $post->post_title . '</h3>';
+
+                        $html .= '<p class="short-desc">';
+                        $html .= $this->show_short_description($post->ID);
+                        $html .= '</p>';
+
+                        $html .= $this->show_additives($post->ID);
+                        $html .= '</div>';
+
+                        $html .= '<div class="order-button">';
+                        $html .= '<p>' . $product->get_price_html() . '</p>';
+
+                        $html .= $this->generate_add_to_cart_button($post->ID);
+
+                        $html .= '</div>'; //product-info
+                        $html .= '</div>'; //product
+                    }
+                }
+
+                if ($catTitleView != 'no_titles') {
+                    $html .= '</div>'; // .products
+                }
+
+                if ($isTabCategories) {
+                    $html .= '</div>'; // .tab-pane
+                }
             }
+        }
+
+        if ($catTitleView == 'no_titles') {
             $html .= '</div>'; // .products
-            $html .= '</div>'; // .tab-pane
         }
 
         if ($isTabCategories) {

@@ -14,12 +14,12 @@ class Branches extends Common
 {
     public function register()
     {
-        add_action('carbon_fields_register_fields', array($this, 'register_branches_taxonomy'));
+        add_action('carbon_fields_register_fields', array($this, 'add_branch_fields'));
 
         add_action('init', array($this, 'create_branches_taxonomy'));
     }
 
-    public function register_branches_taxonomy()
+    public function add_branch_fields()
     {
         $opening_hours = $this->generate_opening_hours();
 

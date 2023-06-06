@@ -45,19 +45,34 @@ class Common
         );
     }
 
-    public function get_products_for_category($category_id)
+    public function get_products($category_id = 0, $branch_id = 0)
     {
-        $args = array(
-            'post_type' => 'product',
-            'posts_per_page' => -1,
-            'tax_query' => array(
+        $tax_query = array();
+
+        if ($category_id) {
+            $tax_query[] =
                 array(
                     'taxonomy' => 'product_cat',
                     'field' => 'term_id',
                     'terms' => intval($category_id),
-                ),
-            ),
+                );
+        }
+
+        if ($branch_id) {
+            $tax_query[] =
+            array(
+                'taxonomy' => 'wp_liefer_branches',
+                'field' => 'term_id',
+                'terms' => intval($branch_id),
+            );
+        }
+
+        $args = array(
+            'post_type' => 'product',
+            'posts_per_page' => -1,
+            'tax_query' => $tax_query
         );
+
         $products = get_posts($args);
 
         return $products;
