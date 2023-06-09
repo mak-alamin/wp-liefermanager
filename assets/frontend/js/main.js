@@ -321,13 +321,59 @@
       .remove();
   }
 
-  $("#productModal .close").on("click", function () {
-    $("#productModal").hide();
+  $(document).on("click", ".modal .close", function () {
+    $(this).closest(".modal").hide();
   });
 
   $(document).on("click", ".single_add_to_cart_button", function () {
     $(this).text("Hinzufügen...");
 
     $("body").block({ message: wp_liefer_loader });
+  });
+
+  /**
+   * ------------------------------------------
+   * Branch Selection Popup
+   * ------------------------------------------
+   */
+  $(document).ready(function () {
+    var branchesData = WPLiefermanagerData.branches;
+
+    var branch_select = '<select id="wp_liefer_branch_select">';
+
+    branchesData.forEach(function (branch, i) {
+      // '{"id": 32, "name": "Uttara Branch"}'
+
+      var branchData = "{'id':" + branch.term_id + ",'name':'" + branch.name + "'}";
+
+      branch_select +=
+        '<option value="' + branchData + '">' + branch.name + "</option>";
+    });
+
+    branch_select += "</select>";
+
+    var branch_save_button = '<button id="wp_liefer_save_branch"> OK </button>';
+
+    var branch_modal =
+      '<div id="branchModal" class="modal"><div class="modal-content"><span class="close">&times;</span><div class="modal-body"><h2>Wählen Sie Filiale</h2>' +
+      branch_select +
+      branch_save_button +
+      "</div></div></div>";
+
+    $("body").prepend(branch_modal);
+
+    var branchNotSelected = !localStorage.getItem("wp_liefer_selected_branch") || localStorage.getItem("wp_liefer_selected_branch") == '';
+
+    if(branchNotSelected){ $("#branchModal").css({display: 'flex'}) }
+
+    $("#wp_liefer_save_branch").on("click", function () {
+      var selected_branch = $("#wp_liefer_branch_select").val();
+
+      localStorage.setItem("wp_liefer_selected_branch", selected_branch);
+
+      document.cookie = "wp_liefer_selected_branch=" + selected_branch + ";path=/";
+
+      $("#branchModal").hide();
+    });
   });
 })(jQuery);

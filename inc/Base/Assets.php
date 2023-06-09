@@ -37,8 +37,14 @@ class Assets
 
         wp_enqueue_script('main');
 
+        $branches = get_terms(array(
+            'taxonomy' => 'wp_liefer_branches',
+            'post_type' => 'product'
+        ));
+
         wp_localize_script('main', 'WPLiefermanagerData', array(
-            'ajaxurl' => admin_url('admin-ajax.php')
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'branches' => $branches
         ));
     }
 

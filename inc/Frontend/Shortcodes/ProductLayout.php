@@ -20,9 +20,9 @@ class ProductLayout extends \Inc\Base\Common
     {
         $product_url = $_REQUEST['productUrl'];
 
-        $response = wp_remote_get($product_url); // make a remote GET request to the product URL
+        $response = wp_remote_get($product_url);
 
-        $product_html = wp_remote_retrieve_body($response); // retrieve the HTML content from the response
+        $product_html = wp_remote_retrieve_body($response);
 
         wp_send_json($product_html);
     }

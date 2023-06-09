@@ -41,12 +41,30 @@ class Delivery
         add_action('wp_ajax_nopriv_wp_liefer_generate_pickup_times', array($this, 'wp_liefer_generate_pickup_times'));
     }
 
+    function get_branch_name($selectedBranch) {
+        if (!empty($selectedBranch)) {
+            $formattedData = str_replace("\'", '"', $selectedBranch);
+
+            $branchInfo = json_decode($formattedData);
+            
+            return $branchInfo->name;
+        }
+
+        return null;
+    }
+    
     public function add_delivery_option()
     {
         $tableId = intval(WC()->session->get('table_id'));
-
+        
         if ($tableId) {
             return;
+        }
+
+        $selectedBranch = isset($_COOKIE['wp_liefer_selected_branch']) ? $_COOKIE['wp_liefer_selected_branch'] : null;
+        
+        if($this->get_branch_name($selectedBranch)){
+            echo "<h3>Filiale: " . $this->get_branch_name($selectedBranch) . "</h3>"; 
         }
 
         echo "<div class='wp-liefer-delivery-info'>";
@@ -201,6 +219,12 @@ class Delivery
 
     public function save_delivery_options($order_id)
     {
+        $selectedBranch = isset($_COOKIE['wp_liefer_selected_branch']) ? $_COOKIE['wp_liefer_selected_branch'] : null;
+
+        if(!empty($selectedBranch)){
+            update_post_meta($order_id, 'wp_liefer_selected_branch', $selectedBranch);
+        }
+
         if ($_POST['wp_liefer_delivery_option']) {
             update_post_meta($order_id, 'wp_liefer_delivery_option', esc_attr($_POST['wp_liefer_delivery_option']));
 
@@ -226,6 +250,12 @@ class Delivery
 
     function save_delivery_pickup_info($order)
     {
+        $selectedBranch = isset($_COOKIE['wp_liefer_selected_branch']) ? $_COOKIE['wp_liefer_selected_branch'] : null;
+
+        if($this->get_branch_name($selectedBranch)){
+            $order->update_meta_data('Filiale', esc_html($this->get_branch_name($selectedBranch)));
+        }
+
         $delivery_option = $order->get_meta('wp_liefer_delivery_option');
 
         if ($delivery_option == 'delivery') {
@@ -251,6 +281,12 @@ class Delivery
 
         if ($tableId) {
             return;
+        }
+
+        $selectedBranch = get_post_meta($order_id, 'Filiale', true);
+
+        if($selectedBranch){
+            echo '<p><strong>' . __('Filiale:', 'wp-liefermanager') . '</strong> ' . esc_html($selectedBranch) . '</p>';
         }
 
         $order = wc_get_order($order_id);
