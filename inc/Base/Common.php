@@ -10,6 +10,19 @@ use Carbon_Fields\Field;
 
 class Common
 {
+    function get_branchInfo($selectedBranch)
+    {  
+        if (empty($selectedBranch)) {
+            return null;
+        }
+
+        $formattedData = str_replace('\"', '"', $selectedBranch);
+            
+        $branchInfo = json_decode($formattedData);
+
+        return $branchInfo;
+    }
+
     public function generate_opening_hours()
     {
         $weekdays = array(

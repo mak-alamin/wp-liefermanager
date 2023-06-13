@@ -33,6 +33,7 @@ final class Init
             Frontend\Shortcodes\ProductLayout::class,
             Frontend\Checkout\Tips::class,
             Frontend\Checkout\Delivery::class,
+            Frontend\Checkout\Order::class,
         ];
     }
 
