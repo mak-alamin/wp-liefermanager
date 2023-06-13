@@ -8,6 +8,16 @@ namespace Inc\Frontend\Checkout;
 
 class Delivery
 {
+    protected $weekdays = array(
+        1 => 'montag',
+        2 => 'dienstag',
+        3 => 'mittwoch',
+        4 => 'donnerstag',
+        5 => 'freitag',
+        6 => 'samstag',
+        0 => 'sontag'
+    );
+
     public function register()
     {
         // Add delivery/pickup date and time fields to checkout page
@@ -41,30 +51,31 @@ class Delivery
         add_action('wp_ajax_nopriv_wp_liefer_generate_pickup_times', array($this, 'wp_liefer_generate_pickup_times'));
     }
 
-    function get_branch_name($selectedBranch) {
-        if (!empty($selectedBranch)) {
-            $formattedData = str_replace("\'", '"', $selectedBranch);
-
-            $branchInfo = json_decode($formattedData);
-            
-            return $branchInfo->name;
+    function get_branch_name($selectedBranch)
+    {  
+        if (empty($selectedBranch)) {
+            return false;
         }
 
-        return null;
+        $formattedData = str_replace('\"', '"', $selectedBranch);
+            
+        $branchInfo = json_decode($formattedData);
+
+        return $branchInfo->name;
     }
-    
+
     public function add_delivery_option()
     {
         $tableId = intval(WC()->session->get('table_id'));
-        
+
         if ($tableId) {
             return;
         }
 
         $selectedBranch = isset($_COOKIE['wp_liefer_selected_branch']) ? $_COOKIE['wp_liefer_selected_branch'] : null;
-        
-        if($this->get_branch_name($selectedBranch)){
-            echo "<h3>Filiale: " . $this->get_branch_name($selectedBranch) . "</h3>"; 
+
+        if ($this->get_branch_name($selectedBranch)) {
+            echo "<h3>Filiale: " . $this->get_branch_name($selectedBranch) . "</h3>";
         }
 
         echo "<div class='wp-liefer-delivery-info'>";
@@ -123,22 +134,17 @@ class Delivery
     public function wp_liefer_generate_delivery_times()
     {
         $weekday = intval($_REQUEST['weekday']);
+        $branchId = intval($_REQUEST['branchId']);
 
         $deliveryTimes = array();
 
-        $deliveryTimes[1] = carbon_get_theme_option('wp_liefer_montag_delivery_times');
-
-        $deliveryTimes[2] = carbon_get_theme_option('wp_liefer_dienstag_delivery_times');
-
-        $deliveryTimes[3] = carbon_get_theme_option('wp_liefer_mittwoch_delivery_times');
-
-        $deliveryTimes[4] = carbon_get_theme_option('wp_liefer_donnerstag_delivery_times');
-
-        $deliveryTimes[5] = carbon_get_theme_option('wp_liefer_freitag_delivery_times');
-
-        $deliveryTimes[6] = carbon_get_theme_option('wp_liefer_samstag_delivery_times');
-
-        $deliveryTimes[0] = carbon_get_theme_option('wp_liefer_sontag_delivery_times');
+        foreach ($this->weekdays as $key => $dayname) {
+            if ($branchId) {
+                $deliveryTimes[$key] =  carbon_get_term_meta($branchId, 'wp_liefer_' . $dayname . '_delivery_times');
+            } else {
+                $deliveryTimes[$key] = carbon_get_theme_option('wp_liefer_' . $dayname . '_delivery_times');
+            }
+        }
 
         $openingTime = $deliveryTimes[$weekday][0]['open_at'];
 
@@ -157,21 +163,17 @@ class Delivery
     {
         $weekday = intval($_REQUEST['weekday']);
 
+        $branchId = intval($_REQUEST['branchId']);
+
         $pickupTimes = array();
 
-        $pickupTimes[1] = carbon_get_theme_option('wp_liefer_montag_opening_hours');
-
-        $pickupTimes[2] = carbon_get_theme_option('wp_liefer_dienstag_opening_hours');
-
-        $pickupTimes[3] = carbon_get_theme_option('wp_liefer_mittwoch_opening_hours');
-
-        $pickupTimes[4] = carbon_get_theme_option('wp_liefer_donnerstag_opening_hours');
-
-        $pickupTimes[5] = carbon_get_theme_option('wp_liefer_freitag_opening_hours');
-
-        $pickupTimes[6] = carbon_get_theme_option('wp_liefer_samstag_opening_hours');
-
-        $pickupTimes[0] = carbon_get_theme_option('wp_liefer_sontag_opening_hours');
+        foreach ($this->weekdays as $key => $dayname) {
+            if ($branchId) {
+                $pickupTimes[$key] =  carbon_get_term_meta($branchId, 'wp_liefer_' . $dayname . '_opening_hours');
+            } else {
+                $pickupTimes[$key] = carbon_get_theme_option('wp_liefer_' . $dayname . '_opening_hours');
+            }
+        }
 
         $openingTime = $pickupTimes[$weekday][0]['open_at'];
 
@@ -221,7 +223,7 @@ class Delivery
     {
         $selectedBranch = isset($_COOKIE['wp_liefer_selected_branch']) ? $_COOKIE['wp_liefer_selected_branch'] : null;
 
-        if(!empty($selectedBranch)){
+        if (!empty($selectedBranch)) {
             update_post_meta($order_id, 'wp_liefer_selected_branch', $selectedBranch);
         }
 
@@ -252,7 +254,7 @@ class Delivery
     {
         $selectedBranch = isset($_COOKIE['wp_liefer_selected_branch']) ? $_COOKIE['wp_liefer_selected_branch'] : null;
 
-        if($this->get_branch_name($selectedBranch)){
+        if ($this->get_branch_name($selectedBranch)) {
             $order->update_meta_data('Filiale', esc_html($this->get_branch_name($selectedBranch)));
         }
 
@@ -285,7 +287,7 @@ class Delivery
 
         $selectedBranch = get_post_meta($order_id, 'Filiale', true);
 
-        if($selectedBranch){
+        if ($selectedBranch) {
             echo '<p><strong>' . __('Filiale:', 'wp-liefermanager') . '</strong> ' . esc_html($selectedBranch) . '</p>';
         }
 

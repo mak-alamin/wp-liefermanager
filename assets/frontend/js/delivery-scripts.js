@@ -2,9 +2,24 @@ jQuery(document).ready(function ($) {
   let wp_liefer_loader =
     '<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
 
+    function getCookieValue(cookieName) {
+      var name = cookieName + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var cookieArray = decodedCookie.split(";");
+    
+      for (var i = 0; i < cookieArray.length; i++) {
+        var cookie = cookieArray[i].trim();
+        
+        if (cookie.indexOf(name) === 0) {
+          return cookie.substring(name.length, cookie.length);
+        }
+      }
+    
+      return "";
+    }
+        
   function wpLieferMillisecondsToTime(ms) {
     const date = new Date(ms);
-    console.log(date);
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
@@ -112,7 +127,7 @@ jQuery(document).ready(function ($) {
   //   maxDate: "+1m",
   // });
 
-  function wpLieferGenerateDeliveryTimes(weekDay, date) {
+  function wpLieferGenerateDeliveryTimes(weekDay, date, branchId = 0) {
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const day = ("0" + date.getDate()).slice(-2);
@@ -124,10 +139,9 @@ jQuery(document).ready(function ($) {
       data: {
         action: "wp_liefer_generate_delivery_times",
         weekday: weekDay,
+        branchId: branchId
       },
       success: function (res) {
-        console.log(res);
-
         let deliveryTimes = res?.deliveryTimes;
 
         let slotInterval = 30; // in minutes
@@ -182,14 +196,16 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  // Generate Delivery Times for current day
+  // Generate Delivery Times for today
   $("#wp_liefer_delivery_timepicker_field").block({
     message: wp_liefer_loader,
   });
-  let currentDeliveryDate = new Date();
-  let deliveryWeekDay = currentDeliveryDate.getDay();
+  var deliveryDate = new Date();
+  var deliveryWeekDay = deliveryDate.getDay();
 
-  wpLieferGenerateDeliveryTimes(deliveryWeekDay, currentDeliveryDate);
+  var selectedBranch = JSON.parse(getCookieValue('wp_liefer_selected_branch'));
+
+  wpLieferGenerateDeliveryTimes(deliveryWeekDay, deliveryDate, selectedBranch.id);
 
   // Delivery times on date select
   // $("#wp_liefer_delivery_datepicker").on("change", function () {
@@ -231,7 +247,7 @@ jQuery(document).ready(function ($) {
   //   wpLieferGeneratePickupTimes(weekDay, choosenDate);
   // });
 
-  function wpLieferGeneratePickupTimes(weekDay, date) {
+  function wpLieferGeneratePickupTimes(weekDay, date, branchId = 0) {
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const day = ("0" + date.getDate()).slice(-2);
@@ -243,6 +259,7 @@ jQuery(document).ready(function ($) {
       data: {
         action: "wp_liefer_generate_pickup_times",
         weekday: weekDay,
+        branchId: branchId
       },
       success: function (res) {
         // console.log(res);
@@ -271,15 +288,11 @@ jQuery(document).ready(function ($) {
           );
 
           deliveryStartTime = wpLieferGetNextHalfOrFullHour(deliveryStartTime);
-
-          console.log(deliveryStartTime);
-
+        
           deliveryStartTime = wpLieferAddExtraMinutes(
             deliveryStartTime,
             preparationTime
           );
-
-          console.log(deliveryStartTime);
 
           $("#wp_liefer_pickup_timepicker").timepicker({
             timeFormat: "H:i",
@@ -310,7 +323,7 @@ jQuery(document).ready(function ($) {
     message: wp_liefer_loader,
   });
   let currentPickupDate = new Date();
-  let weekDay = currentPickupDate.getDay();
+  let pickupWeekDay = currentPickupDate.getDay();
 
-  wpLieferGeneratePickupTimes(weekDay, currentPickupDate);
+  wpLieferGeneratePickupTimes(pickupWeekDay, currentPickupDate, selectedBranch.id);
 });

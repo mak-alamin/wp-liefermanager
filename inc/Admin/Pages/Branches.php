@@ -31,9 +31,9 @@ class Branches extends Common
         
         array_push($opening_hours['delivery_times'], $max_delivery_times_orders );
 
-        Container::make('term_meta', __('Branch Meta'))
+        Container::make('term_meta', __('Filialinfo'))
             ->where('term_taxonomy', '=', 'wp_liefer_branches') 
-            ->add_fields(array(
+            ->add_tab(__('Filialinfo', 'wp-liefermanager'), array(
                 Field::make('text', 'branch_address', __('Anschrift der Filiale')),
                 Field::make('text', 'branch_email', __('Filial-E-Mail')),
                 Field::make('text', 'delivery_cost', __('Lieferkosten')),

@@ -344,7 +344,8 @@
     branchesData.forEach(function (branch, i) {
       // '{"id": 32, "name": "Uttara Branch"}'
 
-      var branchData = "{'id':" + branch.term_id + ",'name':'" + branch.name + "'}";
+      var branchData =
+        "{'id':" + branch.term_id + ",'name':'" + branch.name + "'}";
 
       branch_select +=
         '<option value="' + branchData + '">' + branch.name + "</option>";
@@ -362,18 +363,43 @@
 
     $("body").prepend(branch_modal);
 
-    var branchNotSelected = !localStorage.getItem("wp_liefer_selected_branch") || localStorage.getItem("wp_liefer_selected_branch") == '';
+    var branchSelected = checkCookieExists("wp_liefer_selected_branch");
 
-    if(branchNotSelected){ $("#branchModal").css({display: 'flex'}) }
+    if (!branchSelected) {
+      $("#branchModal").css({ display: "flex" });
+    }
 
     $("#wp_liefer_save_branch").on("click", function () {
-      var selected_branch = $("#wp_liefer_branch_select").val();
+      var selected_branch = $("#wp_liefer_branch_select").val().replaceAll("'", '"');
 
       localStorage.setItem("wp_liefer_selected_branch", selected_branch);
 
-      document.cookie = "wp_liefer_selected_branch=" + selected_branch + ";path=/";
+      document.cookie =
+        "wp_liefer_selected_branch=" + selected_branch + ";path=/";
 
       $("#branchModal").hide();
+
+      window.location.reload();
     });
   });
+
+  function checkCookieExists(cookieName) {
+    // Get all the cookies as a string
+    var cookies = document.cookie;
+
+    // Split the cookies string into an array of individual cookies
+    var cookieArray = cookies.split(";");
+
+    // Loop through each cookie to check if the specified cookie exists
+    for (var i = 0; i < cookieArray.length; i++) {
+      var cookie = cookieArray[i].trim();
+
+      // Check if the cookie starts with the specified name
+      if (cookie.indexOf(cookieName + "=") === 0) {
+        return true; // Cookie exists
+      }
+    }
+
+    return false; // Cookie does not exist
+  }
 })(jQuery);
