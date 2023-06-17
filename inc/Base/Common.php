@@ -10,14 +10,25 @@ use Carbon_Fields\Field;
 
 class Common
 {
-    function get_branchInfo($selectedBranch)
-    {  
+    public function get_branchId()
+    {
+        $selectedBranch = isset($_COOKIE['wp_liefer_selected_branch']) ? $_COOKIE['wp_liefer_selected_branch'] : null;
+
+        $branchInfo = $this->get_branchInfo($selectedBranch);
+
+        $branchId = empty($branchInfo) ? 0 : $branchInfo->id;
+
+        return $branchId;
+    }
+
+    public function get_branchInfo($selectedBranch)
+    {
         if (empty($selectedBranch)) {
             return null;
         }
 
         $formattedData = str_replace('\"', '"', $selectedBranch);
-            
+
         $branchInfo = json_decode($formattedData);
 
         return $branchInfo;
@@ -73,11 +84,11 @@ class Common
 
         if ($branch_id) {
             $tax_query[] =
-            array(
-                'taxonomy' => 'wp_liefer_branches',
-                'field' => 'term_id',
-                'terms' => intval($branch_id),
-            );
+                array(
+                    'taxonomy' => 'wp_liefer_branches',
+                    'field' => 'term_id',
+                    'terms' => intval($branch_id),
+                );
         }
 
         $args = array(

@@ -13,10 +13,10 @@ class Order extends Common
     function register() {
         // add_action('woocommerce_checkout_before_customer_details', array($this, 'test_function'));
 
+        // Add Branch Email
         add_filter( 'woocommerce_email_headers', [$this, 'add_branch_email_for_order'], 10, 2);
     }
 
- 
     public function add_branch_email_for_order( $headers, $object ) {
         $selectedBranch = isset($_COOKIE['wp_liefer_selected_branch']) ? $_COOKIE['wp_liefer_selected_branch'] : null;
         

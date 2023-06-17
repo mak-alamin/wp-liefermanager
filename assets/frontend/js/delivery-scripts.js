@@ -81,6 +81,7 @@ jQuery(document).ready(function ($) {
 
   $('input[name="wp_liefer_delivery_option"]').change(function () {
     wp_liefer_delivery_option = $(this).val();
+
     wpLieferSetDeliveryOption(wp_liefer_delivery_option);
   });
 
@@ -92,6 +93,21 @@ jQuery(document).ready(function ($) {
       $(".delivery-datetime-picker").hide();
       $(".pickup-datetime-picker").show();
     }
+
+    $.ajax({
+      method: 'POST',
+      url: WPLiefermanagerData.ajaxurl,
+      data: {
+        action: 'wp_liefer_set_delivery_option',
+        delivery_option: delivery_option
+      },
+      success: function(res){
+        console.log(res);
+        
+        $(document.body).trigger("update_checkout");
+      },
+      error: function(err){console.log(err);}
+      });
   }
 
   /**
