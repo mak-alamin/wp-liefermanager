@@ -18,7 +18,7 @@ class Shipping extends Common
         // Set Delivery Option
         add_action('wp_ajax_wp_liefer_set_delivery_option', [$this, 'set_delivery_option']);
         add_action('wp_ajax_nopriv_wp_liefer_set_delivery_option', [$this, 'set_delivery_option']);
-        
+
         // Delivery Cost
         add_action('woocommerce_cart_calculate_fees', [$this, 'add_delivery_cost_as_fee']);
     }
@@ -27,13 +27,19 @@ class Shipping extends Common
     function disable_checkout_for_min_cart_total()
     {
         // Define the minimum cart total required for checkout
-        $minimum_total = floatval(carbon_get_term_meta($this->get_branchId(), 'min_order_value'));
+        $minimum_total = floatval(carbon_get_theme_option('wp_liefer_min_order_value'));
+
+        $branchOption = carbon_get_theme_option('wp_liefer_branch_option');
+
+        if ('multi' == $branchOption) {
+            $minimum_total = floatval(carbon_get_term_meta($this->get_branchId(), 'min_order_value'));
+        }
 
         // Get the cart total
         $cart_total = WC()->cart->subtotal;
 
         // Check if the cart total is less than the minimum requirement
-        if ( WC()->session->get('wp_liefer_delivery_option') == 'delivery' && $cart_total < $minimum_total) {
+        if (WC()->session->get('wp_liefer_delivery_option') == 'delivery' && $cart_total < $minimum_total) {
             // Redirect the user to the cart page with an error message
             wc_add_notice('Mindestbestellwert ' . wc_price($minimum_total) . ' nicht erreicht.', 'error');
         }
@@ -49,12 +55,21 @@ class Shipping extends Common
 
     function add_delivery_cost_as_fee()
     {
-        $delivery_cost = floatval(carbon_get_term_meta($this->get_branchId(), 'delivery_cost'));
+        $delivery_cost = floatval(carbon_get_theme_option('wp_liefer_delivery_cost'));
 
-        $free_shipping_min_total = floatval(carbon_get_term_meta($this->get_branchId(), 'min_order_value_free_shipping'));
+        $free_shipping_min_total = floatval(carbon_get_theme_option('wp_liefer_min_order_value_free_shipping'));
+
+        $branchOption = carbon_get_theme_option('wp_liefer_branch_option');
+
+        if ('multi' == $branchOption) {
+            $delivery_cost = floatval(carbon_get_term_meta($this->get_branchId(), 'delivery_cost'));
+
+            $free_shipping_min_total = floatval(carbon_get_term_meta($this->get_branchId(), 'min_order_value_free_shipping'));
+        }
 
         // Check if the cart total is greater than a certain amount
-        if ('delivery' == WC()->session->get('wp_liefer_delivery_option') && WC()->cart->subtotal < $free_shipping_min_total) {
+        if ('delivery' == WC()->session->get('wp_liefer_delivery_option') && floatval(WC()->cart->subtotal) < $free_shipping_min_total) {
+
             // Add the delivery cost as a fee
             WC()->cart->add_fee('Lieferkosten', $delivery_cost, false);
 

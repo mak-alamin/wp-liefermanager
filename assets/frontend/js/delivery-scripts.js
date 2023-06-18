@@ -38,9 +38,9 @@ jQuery(document).ready(function ($) {
     branchOption = "multi",
     deliveryType = "delivery"
   ) {
-    var deliveryOptionSelected = getCookieValue("wp_liefer_delivery_option");
-    var branchSelected = getCookieValue("wp_liefer_selected_branch");
-    var zipcodeSelected = getCookieValue("wp_liefer_user_zipcode");
+    var deliveryOptionSelected = localStorage.getItem("wp_liefer_delivery_option");
+    var branchSelected = localStorage.getItem("wp_liefer_selected_branch");
+    var zipcodeSelected = localStorage.getItem("wp_liefer_user_zipcode");
 
     var needDelivery =
       deliveryType != "disable" && deliveryOptionSelected == "";
@@ -69,12 +69,24 @@ jQuery(document).ready(function ($) {
         return;
       }
 
-      delivery_option = localStorage.getItem("wp_liefer_delivery_option")
+      if (res.delivery_type == "delivery_only") {
+        delivery_option = "delivery";
+        
+        localStorage.setItem("wp_liefer_delivery_option", 'delivery');
+
+      } else if(res.delivery_type == "pickup_only") {
+        delivery_option = "pickup";
+
+        localStorage.setItem("wp_liefer_delivery_option", 'pickup');
+
+      } else if(res.delivery_type == "disable") {
+        delivery_option = "";
+        localStorage.setItem("wp_liefer_delivery_option", '');
+
+      } else {
+        delivery_option = localStorage.getItem("wp_liefer_delivery_option")
         ? localStorage.getItem("wp_liefer_delivery_option")
         : "delivery";
-
-      if (res.delivery_type == "pickup_only") {
-        delivery_option = "pickup";
       }
 
       var branch_select =
@@ -99,26 +111,26 @@ jQuery(document).ready(function ($) {
       <form id="wp_liefer_delivery_popup_form" class="delivery-datetime-picker">
           <input type="hidden" class="input-radio" value="delivery" name="wp_liefer_delivery_option" id="wp_liefer_delivery_option_delivery" checked="checked" />
               ${branch_select} ${zipcodeInput}
-              <button id="wp_liefer_save_branch"> Starten sie meine bestellung </button>
+              <button class="wp_liefer_save_cookies"> Starten sie meine bestellung </button>
       </form>
     
       <form id="wp_liefer_pickup_popup_form" class="pickup-datetime-picker">
         <input type="hidden" class="input-radio" value="pickup" name="wp_liefer_delivery_option" id="wp_liefer_delivery_option_pickup" checked="checked" />
           ${branch_select}
-          <button id="wp_liefer_save_branch"> Starten sie meine bestellung </button>
+          <button class="wp_liefer_save_cookies"> Starten sie meine bestellung </button>
       </form>
     </div>`;
 
-      var deliveryDisabledHtml = `<form id="wp_liefer_delivery_popup_form" class="delivery-datetime-picker">
+      var deliveryDisabledHtml = `<form id="wp_liefer_delivery_popup_form">
         <input type="hidden" class="input-radio" value="" name="wp_liefer_delivery_option" id="wp_liefer_delivery_option_delivery" checked="checked" />
         ${branch_select} ${zipcodeInput}
-        <button id="wp_liefer_save_branch"> Starten sie meine bestellung </button>
+        <button class="wp_liefer_save_cookies"> Starten sie meine bestellung </button>
     </form>`;
 
       var branchModalContent =
-        res.delivery_type == "disable"
-          ? deliveryDisabledHtml
-          : deliveryEnabledHtml;
+        res.delivery_type == "delivery_pickup"
+          ? deliveryEnabledHtml 
+          : deliveryDisabledHtml;
 
       var delivery_branch_modal =
         '<div id="branchModal" class="modal"><div class="modal-content"><span class="close">&times;</span><div class="modal-body">' +
@@ -133,6 +145,8 @@ jQuery(document).ready(function ($) {
       }
 
       showHideBranchModal(res.branch_option, res.delivery_type);
+
+      setDeliveryOption(delivery_option);
 
       $(
         '#branchModal .delivery-option label[data-option="' +
@@ -190,8 +204,6 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  setDeliveryOption(delivery_option);
-
   $("body").on(
     "change",
     'input[name="wp_liefer_delivery_option"]',
@@ -216,12 +228,12 @@ jQuery(document).ready(function ($) {
   function wpLieferSaveCookies(form) {
     delivery_option = $(form).serializeArray()[0].value;
 
-    console.log(delivery_option);
+    var branchExists = $(form).find("#wp_liefer_branch_select").length;
 
-    var selected_branch = $(form)
+    var selected_branch = branchExists ? $(form)
       .find("#wp_liefer_branch_select")
       .val()
-      .replaceAll("'", '"');
+      .replaceAll("'", '"') : '';
 
     var user_zipcode = $(form).find("#wp_liefer_user_zipcode").val() || "";
 

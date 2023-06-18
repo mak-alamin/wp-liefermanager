@@ -39,9 +39,9 @@ class Settings extends Common
                         'delivery_only' => __('Nur Lieferung', 'wp-liefermanager'),
                         'pickup_only' => __('Nur Abholung', 'wp-liefermanager')
                     )),
-                Field::make('text', 'delivery_cost', __('Lieferkosten')),
-                Field::make('text', 'min_order_value', __('Mindestbestellwert erforderlich')),
-                Field::make('text', 'min_order_value_free_shipping', __('Mindestbestellwert für kostenlosen Versand')),
+                Field::make('text', 'wp_liefer_delivery_cost', __('Lieferkosten')),
+                Field::make('text', 'wp_liefer_min_order_value', __('Mindestbestellwert erforderlich')),
+                Field::make('text', 'wp_liefer_min_order_value_free_shipping', __('Mindestbestellwert für kostenlosen Versand')),
             ))
 
             // Opening Hours

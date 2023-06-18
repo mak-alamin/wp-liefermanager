@@ -310,7 +310,7 @@ button.button.remove-tip {
   flex-direction: column;
   justify-content: center;
 }
-#branchModal #wp_liefer_save_branch {
+#branchModal .wp_liefer_save_cookies {
   display: block;
   margin: 20px auto 0px;
   max-width: 100%;
@@ -575,7 +575,7 @@ button.button.calculate-tip {
   #branchModal .modal-body {
     padding: 30px 15px;
   }
-  #branchModal #wp_liefer_save_branch {
+  #branchModal .wp_liefer_save_cookies {
     padding: 15px;
     font-size: 14px;
   }
