@@ -234,6 +234,7 @@
     }
   );
 
+  // Do Stuff on product Iframe load
   $("iframe#productEmbed").on("load", function () {
     console.log("iframe loaded");
 
@@ -262,7 +263,7 @@
     $(".wpliefer-product-layout .product").unblock();
   });
 
-  // Hide Unwanted Elements
+  // Hide Unwanted Elements from iframe
   function hideUnwantedElementsfromIframe() {
     // Find and hide the element within the iframe
     $("iframe#productEmbed").contents().find("#wpadminbar").remove();
@@ -330,76 +331,4 @@
 
     $("body").block({ message: wp_liefer_loader });
   });
-
-  /**
-   * ------------------------------------------
-   * Branch Selection Popup
-   * ------------------------------------------
-   */
-  $(document).ready(function () {
-    var branchesData = WPLiefermanagerData.branches;
-
-    var branch_select = '<select id="wp_liefer_branch_select">';
-
-    branchesData.forEach(function (branch, i) {
-      // '{"id": 32, "name": "Uttara Branch"}'
-
-      var branchData =
-        "{'id':" + branch.term_id + ",'name':'" + branch.name + "'}";
-
-      branch_select +=
-        '<option value="' + branchData + '">' + branch.name + "</option>";
-    });
-
-    branch_select += "</select>";
-
-    var branch_save_button = '<button id="wp_liefer_save_branch"> OK </button>';
-
-    var branch_modal =
-      '<div id="branchModal" class="modal"><div class="modal-content"><span class="close">&times;</span><div class="modal-body"><h2>Wählen Sie Filiale</h2>' +
-      branch_select +
-      branch_save_button +
-      "</div></div></div>";
-
-    $("body").prepend(branch_modal);
-
-    var branchSelected = checkCookieExists("wp_liefer_selected_branch");
-
-    if (!branchSelected) {
-      $("#branchModal").css({ display: "flex" });
-    }
-
-    $("#wp_liefer_save_branch").on("click", function () {
-      var selected_branch = $("#wp_liefer_branch_select").val().replaceAll("'", '"');
-
-      localStorage.setItem("wp_liefer_selected_branch", selected_branch);
-
-      document.cookie =
-        "wp_liefer_selected_branch=" + selected_branch + ";path=/";
-
-      $("#branchModal").hide();
-
-      window.location.reload();
-    });
-  });
-
-  function checkCookieExists(cookieName) {
-    // Get all the cookies as a string
-    var cookies = document.cookie;
-
-    // Split the cookies string into an array of individual cookies
-    var cookieArray = cookies.split(";");
-
-    // Loop through each cookie to check if the specified cookie exists
-    for (var i = 0; i < cookieArray.length; i++) {
-      var cookie = cookieArray[i].trim();
-
-      // Check if the cookie starts with the specified name
-      if (cookie.indexOf(cookieName + "=") === 0) {
-        return true; // Cookie exists
-      }
-    }
-
-    return false; // Cookie does not exist
-  }
 })(jQuery);

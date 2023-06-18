@@ -187,46 +187,6 @@ button.button.remove-tip {
 .layout-additives .additives img {
   max-width: 40px;
 }
-/* Desktop */
-@media (min-width: 992px) {
-  .tab-wrapper.cat-title-tabs.left_tabs {
-    display: flex;
-    gap: 30px;
-  }
-  .cat-title-tabs.left_tabs .tab-menu.vertical {
-    width: 20%;
-  }
-  .cat-title-tabs.left_tabs .tab-content {
-    width: 80%;
-  }
-  .wpliefer-product-layout .tab-menu {
-    display: flex;
-  }
-}
-@media (min-width: 768px) {
-  .wpliefer-product-layout .products.grid {
-    display: flex;
-  }
-  .wpliefer-product-layout .grid.column-1 .product,
-  .wpliefer-product-layout .list .product {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .wpliefer-product-layout .grid .product {
-    width: 100% !important;
-  }
-  .wpliefer-product-layout .tab-menu.vertical {
-    margin-bottom: 20px;
-  }
-  .wpliefer-product-layout ul.tab-menu li {
-    display: inline-block;
-  }
-}
 
 /* Checkout Delivery Info */
 .delivery-option label {
@@ -243,7 +203,8 @@ button.button.remove-tip {
   visibility: hidden;
   width: 0px;
 }
-.delivery-option input[type="radio"]:checked + label {
+.delivery-option input[type="radio"]:checked + label,
+.delivery-option label.active {
   background-color: #1bae70;
   color: #fff;
 }
@@ -268,6 +229,14 @@ button.button.remove-tip {
   padding: 20px;
   border: 2px solid #1bae70;
 }
+#branchModal .delivery-datetime-picker,
+#branchModal .pickup-datetime-picker {
+  display: block;
+  border: 0;
+}
+#branchModal select#wp_liefer_branch_select {
+  margin-bottom: 15px;
+}
 .delivery-datetime-picker .form-row,
 .pickup-datetime-picker .form-row {
   width: 50%;
@@ -283,11 +252,18 @@ button.button.remove-tip {
   .wp-liefer-delivery-info .pickup-datetime-picker {
     width: 55%;
   }
+
+  #branchModal #wp_liefer_delivery_option_field,
+  #branchModal #wp_liefer_pickup_option_field,
+  #branchModal .wp-liefer-delivery-info .delivery-datetime-picker,
+  #branchModal .wp-liefer-delivery-info .pickup-datetime-picker {
+    width: 100%;
+  }
 }
 
 /* The Modal (background) */
 .admin-bar #productModal,
-.admin-bar #branchModal{
+.admin-bar #branchModal {
   margin-top: 32px;
 }
 .modal {
@@ -301,7 +277,7 @@ button.button.remove-tip {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 }
-#productModal .modal{
+#productModal .modal {
   overflow: auto;
 }
 /* Modal Content */
@@ -320,19 +296,27 @@ button.button.remove-tip {
   animation-name: animatetop;
   animation-duration: 0.4s;
 }
-#productModal .modal-content{
-  height: 100%;
+#branchModal .modal-content {
+  max-width: 480px;
+  min-height: 346px;
 }
 #branchModal .modal-content {
-  max-width: fit-content;
-  min-width: 300px;
+  max-width: 480px;
 }
 #branchModal .modal-body {
-  padding: 20px;
+  padding: 30px;
+  min-height: 346px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 #branchModal #wp_liefer_save_branch {
   display: block;
   margin: 20px auto 0px;
+  max-width: 100%;
+}
+#branchModal .wp-liefer-delivery-info {
+  border: 1px solid #eee;
 }
 /* Add Animation */
 @-webkit-keyframes animatetop {
@@ -544,5 +528,55 @@ button.button.calculate-tip {
   }
   100% {
     opacity: 0;
+  }
+}
+
+/* Responsive */
+/* Desktop */
+@media (min-width: 992px) {
+  .tab-wrapper.cat-title-tabs.left_tabs {
+    display: flex;
+    gap: 30px;
+  }
+  .cat-title-tabs.left_tabs .tab-menu.vertical {
+    width: 20%;
+  }
+  .cat-title-tabs.left_tabs .tab-content {
+    width: 80%;
+  }
+  .wpliefer-product-layout .tab-menu {
+    display: flex;
+  }
+}
+@media (min-width: 768px) {
+  .wpliefer-product-layout .products.grid {
+    display: flex;
+  }
+  .wpliefer-product-layout .grid.column-1 .product,
+  .wpliefer-product-layout .list .product {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .wpliefer-product-layout .grid .product {
+    width: 100% !important;
+  }
+  .wpliefer-product-layout .tab-menu.vertical {
+    margin-bottom: 20px;
+  }
+  .wpliefer-product-layout ul.tab-menu li {
+    display: inline-block;
+  }
+
+  #branchModal .modal-body {
+    padding: 30px 15px;
+  }
+  #branchModal #wp_liefer_save_branch {
+    padding: 15px;
+    font-size: 14px;
   }
 }

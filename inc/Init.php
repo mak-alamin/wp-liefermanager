@@ -16,6 +16,7 @@ final class Init
     {
         return [
             Base\Assets::class,
+            Base\Ajax::class,
             Admin\Menus::class,
             Admin\Pages\Settings::class,
             Admin\Pages\Additives::class,

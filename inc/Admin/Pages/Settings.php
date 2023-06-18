@@ -24,6 +24,25 @@ class Settings extends Common
         Container::make('theme_options', __('Settings'))
             ->set_page_file('wp-liefermanager-settings')
             ->set_page_parent('wp-liefermanager')
+            
+            // General Settings
+            ->add_tab(__('Allgemein', 'wp-liefermanager'), array(
+                Field::make('select', 'wp_liefer_branch_option', __('Filiale Option', 'wp-liefermanager'))
+                    ->set_options(array(
+                        'single' => __('Einzelner Filiale', 'wp-liefermanager'),
+                        'multi' => __('Mehrere Filialen', 'wp-liefermanager'),
+                    )),
+                Field::make('select', 'wp_liefer_delivery_type', __('Lieferart', 'wp-liefermanager'))
+                    ->set_options(array(
+                        'disable' => __('Deaktivieren', 'wp-liefermanager'),
+                        'delivery_pickup' => __('Lieferung und zum Abholen', 'wp-liefermanager'),
+                        'delivery_only' => __('Nur Lieferung', 'wp-liefermanager'),
+                        'pickup_only' => __('Nur Abholung', 'wp-liefermanager')
+                    )),
+                Field::make('text', 'delivery_cost', __('Lieferkosten')),
+                Field::make('text', 'min_order_value', __('Mindestbestellwert erforderlich')),
+                Field::make('text', 'min_order_value_free_shipping', __('Mindestbestellwert für kostenlosen Versand')),
+            ))
 
             // Opening Hours
             ->add_tab(__('Öffnungszeiten', 'wp-liefermanager'), $opening_hours['opening_hours'])

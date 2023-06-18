@@ -29,20 +29,30 @@ class Assets
 
         if (!empty($js_files)) {
             foreach ($js_files as $key => $file) {
-                wp_register_script(basename($file, '.js'), WP_LIEFERMANAGER_ASSETS . '/frontend/js/' . $file, array('jquery'), time(), true);
+                $js_handle = basename($file, '.js');
+
+                $js_footer = true;
+
+                if($js_handle == 'wp-liefer-common'){
+                    $js_footer = false;
+                }
+
+                wp_register_script($js_handle, WP_LIEFERMANAGER_ASSETS . '/frontend/js/' . $file, array('jquery'), time(), $js_footer);
             }
         }
 
         wp_enqueue_style('frontend-main');
 
-        wp_enqueue_script('main');
+        wp_enqueue_script('wp-liefer-common');
+        wp_enqueue_script('wp-liefer-main');
+        wp_enqueue_script('delivery-scripts');
 
         $branches = get_terms(array(
             'taxonomy' => 'wp_liefer_branches',
             'post_type' => 'product'
         ));
 
-        wp_localize_script('main', 'WPLiefermanagerData', array(
+        wp_localize_script('wp-liefer-main', 'WPLiefermanagerData', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'branches' => $branches
         ));
@@ -66,7 +76,7 @@ class Assets
             }
         }
 
-        wp_enqueue_style('admin-main');
-        wp_enqueue_script('admin-main');
+        wp_enqueue_style('wp-liefer-admin-main');
+        wp_enqueue_script('wp-liefer-admin-main');
     }
 }

@@ -34,6 +34,19 @@ class Common
         return $branchInfo;
     }
 
+    function get_branch_name($selectedBranch)
+    {  
+        if (empty($selectedBranch)) {
+            return false;
+        }
+
+        $formattedData = str_replace('\"', '"', $selectedBranch);
+            
+        $branchInfo = json_decode($formattedData);
+
+        return $branchInfo->name;
+    }
+
     public function generate_opening_hours()
     {
         $weekdays = array(

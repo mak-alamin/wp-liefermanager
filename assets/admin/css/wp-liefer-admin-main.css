@@ -44,7 +44,9 @@
   font-weight: 600;
   font-size: 18px;
 }
-
+#carbon_fields_container_settings input {
+  max-width: 400px;
+}
 /* Food Extra Options */
 .wp_liefer_food_extras .cf-complex__groups .cf-complex__group-body {
   flex-wrap: wrap;

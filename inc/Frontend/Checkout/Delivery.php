@@ -6,7 +6,9 @@
 
 namespace Inc\Frontend\Checkout;
 
-class Delivery
+use Inc\Base\Common;
+
+class Delivery extends Common
 {
     protected $weekdays = array(
         1 => 'montag',
@@ -51,19 +53,6 @@ class Delivery
         add_action('wp_ajax_nopriv_wp_liefer_generate_pickup_times', array($this, 'wp_liefer_generate_pickup_times'));
     }
 
-    function get_branch_name($selectedBranch)
-    {  
-        if (empty($selectedBranch)) {
-            return false;
-        }
-
-        $formattedData = str_replace('\"', '"', $selectedBranch);
-            
-        $branchInfo = json_decode($formattedData);
-
-        return $branchInfo->name;
-    }
-
     public function add_delivery_option()
     {
         $tableId = intval(WC()->session->get('table_id'));
@@ -74,9 +63,15 @@ class Delivery
 
         $selectedBranch = isset($_COOKIE['wp_liefer_selected_branch']) ? $_COOKIE['wp_liefer_selected_branch'] : null;
 
-        if ($this->get_branch_name($selectedBranch)) {
+        $branchOption = carbon_get_theme_option('wp_liefer_branch_option');
+
+        if ('multi' == $branchOption && $this->get_branch_name($selectedBranch)) {
             echo "<h3>Filiale: " . $this->get_branch_name($selectedBranch) . "</h3>";
         }
+
+        $delivery_type = carbon_get_theme_option('wp_liefer_delivery_type');
+
+        if($delivery_type == 'disable') {return;}
 
         echo "<div class='wp-liefer-delivery-info'>";
 
@@ -89,7 +84,7 @@ class Delivery
             ),
             'default'   => 'delivery',
             'required'  => true,
-        ), WC()->checkout->get_value('wp_liefer_delivery_option'));
+        ), WC()->session->get('wp_liefer_delivery_option'));
 
         echo "<div class='delivery-datetime-picker'>";
         // woocommerce_form_field('wp_liefer_delivery_datepicker', array(
@@ -98,7 +93,7 @@ class Delivery
         //     'placeholder' => 'Wählen Sie Lieferdatum',
         //     'class'     => array('form-row-wide'),
         //     'required'  => true,
-        // ), WC()->checkout->get_value('chosen_delivery_date'));
+        // ), WC()->session->get('chosen_delivery_date'));
 
         woocommerce_form_field('wp_liefer_delivery_timepicker', array(
             'type'      => 'text',
@@ -106,7 +101,7 @@ class Delivery
             'placeholder' => 'Wählen Sie Lieferzeit',
             'class'     => array('form-row-wide'),
             'required'  => true,
-        ), WC()->checkout->get_value('chosen_delivery_time'));
+        ), WC()->session->get('chosen_delivery_time'));
 
         echo "</div>";
 
@@ -117,7 +112,7 @@ class Delivery
         //     'placeholder' => 'Wählen Sie Abholdatum',
         //     'class'     => array('form-row-wide'),
         //     'required'  => true,
-        // ), WC()->checkout->get_value('chosen_pickup_date'));
+        // ), WC()->session->get('chosen_pickup_date'));
 
         woocommerce_form_field('wp_liefer_pickup_timepicker', array(
             'type'      => 'text',
@@ -125,7 +120,7 @@ class Delivery
             'placeholder' => 'Wählen Sie Abholzeit',
             'class'     => array('form-row-wide'),
             'required'  => true,
-        ), WC()->checkout->get_value('chosen_pickup_time'));
+        ), WC()->session->get('chosen_pickup_time'));
 
         echo "</div>";
         echo "</div>";
@@ -254,7 +249,9 @@ class Delivery
     {
         $selectedBranch = isset($_COOKIE['wp_liefer_selected_branch']) ? $_COOKIE['wp_liefer_selected_branch'] : null;
 
-        if ($this->get_branch_name($selectedBranch)) {
+        $branchOption = carbon_get_theme_option('wp_liefer_branch_option');
+
+        if ('multi' == $branchOption && $this->get_branch_name($selectedBranch)) {
             $order->update_meta_data('Filiale', esc_html($this->get_branch_name($selectedBranch)));
         }
 
@@ -321,6 +318,5 @@ class Delivery
         wp_enqueue_script('jquery-block');
         wp_enqueue_script('jquery-ui-datepicker');
         wp_enqueue_script('jquery-timepicker');
-        wp_enqueue_script('delivery-scripts');
     }
 }

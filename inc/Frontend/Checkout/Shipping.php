@@ -33,7 +33,7 @@ class Shipping extends Common
         $cart_total = WC()->cart->subtotal;
 
         // Check if the cart total is less than the minimum requirement
-        if ($cart_total < $minimum_total) {
+        if ( WC()->session->get('wp_liefer_delivery_option') == 'delivery' && $cart_total < $minimum_total) {
             // Redirect the user to the cart page with an error message
             wc_add_notice('Mindestbestellwert ' . wc_price($minimum_total) . ' nicht erreicht.', 'error');
         }
@@ -42,9 +42,9 @@ class Shipping extends Common
     // Delivery Cost
     function set_delivery_option()
     {
-        $delivery_option = isset($_REQUEST['delivery_option']) ? $_REQUEST['delivery_option'] : 'delivery';
+        $delivery_option = isset($_REQUEST['delivery_option']) ? $_REQUEST['delivery_option'] : '';
 
-        WC()->session->set('delivery_option', $delivery_option);
+        WC()->session->set('wp_liefer_delivery_option', $delivery_option);
     }
 
     function add_delivery_cost_as_fee()
@@ -54,7 +54,7 @@ class Shipping extends Common
         $free_shipping_min_total = floatval(carbon_get_term_meta($this->get_branchId(), 'min_order_value_free_shipping'));
 
         // Check if the cart total is greater than a certain amount
-        if ('delivery' == WC()->session->get('delivery_option') && WC()->cart->subtotal < $free_shipping_min_total) {
+        if ('delivery' == WC()->session->get('wp_liefer_delivery_option') && WC()->cart->subtotal < $free_shipping_min_total) {
             // Add the delivery cost as a fee
             WC()->cart->add_fee('Lieferkosten', $delivery_cost, false);
 
