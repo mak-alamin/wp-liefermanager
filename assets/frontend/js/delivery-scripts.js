@@ -52,7 +52,7 @@ jQuery(document).ready(function ($) {
   }
 
   function zipcodeInputHtml() {
-    return '<label for="wp_liefer_user_zipcode">Bitte geben sie ihre PLZ ein</label><input type="text" id="wp_liefer_user_zipcode" name="wp_liefer_user_zipcode" placeholder="Bitte geben sie ihre PLZ ein" required>';
+    return '<label for="wp_liefer_user_zipcode">Bitte geben sie ihre PLZ ein</label><input type="text" id="wp_liefer_user_zipcode" name="wp_liefer_user_zipcode" placeholder="Bitte geben sie ihre PLZ ein" required> <p class="zipcode-error error-text"></p>';
   }
 
   // Show / Hide Branch Modal
@@ -169,8 +169,10 @@ jQuery(document).ready(function ($) {
     '#branchModal .delivery-option label[data-option="' + delivery_option + '"]'
   ).click();
 
-  if(getCookieValue('wp_liefer_user_zipcode')){
-    $("form.woocommerce-checkout #billing_postcode").val(getCookieValue('wp_liefer_user_zipcode'));
+  if (getCookieValue("wp_liefer_user_zipcode")) {
+    $("form.woocommerce-checkout #billing_postcode").val(
+      getCookieValue("wp_liefer_user_zipcode")
+    );
   }
 
   /**
@@ -246,30 +248,34 @@ jQuery(document).ready(function ($) {
    * ------------------------------------------------
    */
   function wpLieferSaveCookies(form) {
+    // Save Delivery Option
     delivery_option = $(form).serializeArray()[0].value;
-
-    var branchExists = $(form).find("#wp_liefer_branch_select").length;
-
-    var selected_branch = branchExists
-      ? $(form).find("#wp_liefer_branch_select").val().replaceAll("'", '"')
-      : "";
-
-    var user_zipcode = $(form).find("#wp_liefer_user_zipcode").val() || "";
 
     if (localStorage.getItem("wp_liefer_delivery_option") != delivery_option) {
       localStorage.setItem("wp_liefer_delivery_option", delivery_option);
     }
-
-    localStorage.setItem("wp_liefer_selected_branch", selected_branch);
-    localStorage.setItem("wp_liefer_user_zipcode", user_zipcode);
 
     if (getCookieValue("wp_liefer_delivery_option") != delivery_option) {
       document.cookie =
         "wp_liefer_delivery_option=" + delivery_option + ";path=/";
     }
 
+    // Save branch
+    var branchExists = $(form).find("#wp_liefer_branch_select").length;
+
+    var selected_branch = branchExists
+      ? $(form).find("#wp_liefer_branch_select").val().replaceAll("'", '"')
+      : "";
+
+    localStorage.setItem("wp_liefer_selected_branch", selected_branch);
+
     document.cookie =
       "wp_liefer_selected_branch=" + selected_branch + ";path=/";
+
+    // Save zipcode
+    var user_zipcode = $(form).find("#wp_liefer_user_zipcode").val() || "";
+
+    localStorage.setItem("wp_liefer_user_zipcode", user_zipcode);
 
     document.cookie = "wp_liefer_user_zipcode=" + user_zipcode + ";path=/";
 
@@ -280,7 +286,39 @@ jQuery(document).ready(function ($) {
 
   $(document).on("submit", "#wp_liefer_delivery_popup_form", function (e) {
     e.preventDefault();
-    wpLieferSaveCookies($(this));
+
+    var branchExists = $(this).find("#wp_liefer_branch_select").length;
+
+    var selected_branch = branchExists
+      ? JSON.parse(
+          $(this).find("#wp_liefer_branch_select").val().replaceAll("'", '"')
+        )
+      : "";
+
+    var branchId = selected_branch ? parseInt(selected_branch.id) : 0;
+
+    var choosen_zipcode = $(this).find("#wp_liefer_user_zipcode").val().trim();
+
+    jQuery.ajax({
+      method: "POST",
+      url: WPLiefermanagerData.ajaxurl,
+      data: {
+        action: "wp_liefer_get_zipcodes",
+        branch_id: branchId,
+      },
+      success: function (res) {
+        if (res.includes(choosen_zipcode)) {
+          wpLieferSaveCookies("#wp_liefer_delivery_popup_form");
+        } else {
+          $(".zipcode-error").text(
+            "Derzeit bieten wir keine Lieferung an diese Adresse an."
+          );
+        }
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
   });
 
   $(document).on("submit", "#wp_liefer_pickup_popup_form", function (e) {
