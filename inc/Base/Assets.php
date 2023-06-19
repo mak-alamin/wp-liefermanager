@@ -52,9 +52,19 @@ class Assets
             'post_type' => 'product'
         ));
 
-        wp_localize_script('wp-liefer-main', 'WPLiefermanagerData', array(
+        $branchOption = carbon_get_theme_option('wp_liefer_branch_option');
+
+        $delivery_type = carbon_get_theme_option('wp_liefer_delivery_type');
+
+        $settings = [
+            'branch_option' => $branchOption,
+            'delivery_type' => $delivery_type,
+        ];
+
+        wp_localize_script('wp-liefer-common', 'WPLiefermanagerData', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'branches' => $branches
+            'branches' => $branches,
+            'settings' => $settings
         ));
     }
 

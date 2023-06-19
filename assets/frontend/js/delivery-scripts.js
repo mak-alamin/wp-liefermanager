@@ -1,12 +1,34 @@
 jQuery(document).ready(function ($) {
+  // Check if first load happens
+  // if (!getCookieValue("wp_liefer_first_load")) {
+  //   document.cookie =
+  //     "wp_liefer_first_load=1;path=/";
+  // }
+
   /**
    * ------------------------------------------
    *  Delivery Option & Branch Selection Popup
    * ------------------------------------------
    */
-  var delivery_option = localStorage.getItem("wp_liefer_delivery_option")
-    ? localStorage.getItem("wp_liefer_delivery_option")
-    : "";
+
+  console.log(WPLiefermanagerData);
+
+  var delivery_type = WPLiefermanagerData.settings.delivery_type;
+  var branch_option = WPLiefermanagerData.settings.branch_option;
+
+  var delivery_option = "delivery";
+
+  if (delivery_type == "pickup_only") {
+    delivery_option = "pickup";
+  } else if (delivery_type == "delivery_only") {
+    delivery_option = "delivery";
+  } else if (delivery_type == "disable") {
+    delivery_option = "";
+  } else {
+    delivery_option = getCookieValue("wp_liefer_delivery_option")
+      ? getCookieValue("wp_liefer_delivery_option")
+      : "delivery";
+  }
 
   function generateBranchSelect() {
     var branchesData = WPLiefermanagerData.branches;
@@ -38,66 +60,57 @@ jQuery(document).ready(function ($) {
     branchOption = "multi",
     deliveryType = "delivery"
   ) {
-    var deliveryOptionSelected = localStorage.getItem("wp_liefer_delivery_option");
-    var branchSelected = localStorage.getItem("wp_liefer_selected_branch");
-    var zipcodeSelected = localStorage.getItem("wp_liefer_user_zipcode");
+    var deliveryOptionSelected = getCookieValue("wp_liefer_delivery_option");
+    var branchSelected = getCookieValue("wp_liefer_selected_branch");
+    var zipcodeSelected = getCookieValue("wp_liefer_user_zipcode");
 
-    var needDelivery =
-      deliveryType != "disable" && deliveryOptionSelected == "";
+    var forDelivery = deliveryType != "disable" && deliveryOptionSelected == "";
 
-    var needBranch = branchOption == "multi" && !branchSelected;
+    var forBranch = branchOption == "multi" && !branchSelected;
 
-    var needZipcode = deliveryOptionSelected == "delivery" && !zipcodeSelected;
+    var forZipcode = deliveryOptionSelected == "delivery" && !zipcodeSelected;
 
-    console.log(needDelivery, needBranch, needZipcode);
+    console.log(forDelivery, forBranch, forZipcode);
 
-    if (needDelivery || needBranch || needZipcode) {
+    if (forDelivery || forBranch || forZipcode) {
       $("#branchModal").css({ display: "flex" });
     }
   }
 
-  jQuery.ajax({
-    method: "POST",
-    url: WPLiefermanagerData.ajaxurl,
-    data: {
-      action: "wp_liefer_get_general_settings",
-    },
-    success: function (res) {
-      console.log(res);
+  function getDeliveryInputValue(deliveryType) {
+    var inputValue = "delivery";
 
-      if (res.delivery_type == "disable" && res.branch_option == "single") {
-        return;
-      }
+    switch (deliveryType) {
+      case "disable":
+        inputValue = "";
+        break;
 
-      if (res.delivery_type == "delivery_only") {
-        delivery_option = "delivery";
-        
-        localStorage.setItem("wp_liefer_delivery_option", 'delivery');
+      case "pickup_only":
+        inputValue = "pickup";
+        break;
 
-      } else if(res.delivery_type == "pickup_only") {
-        delivery_option = "pickup";
+      default:
+        inputValue = "delivery";
+        break;
+    }
 
-        localStorage.setItem("wp_liefer_delivery_option", 'pickup');
+    return inputValue;
+  }
 
-      } else if(res.delivery_type == "disable") {
-        delivery_option = "";
-        localStorage.setItem("wp_liefer_delivery_option", '');
+  /**
+   * ---------------------------------
+   * Generate Delivery Info Popup
+   * ---------------------------------
+   */
 
-      } else {
-        delivery_option = localStorage.getItem("wp_liefer_delivery_option")
-        ? localStorage.getItem("wp_liefer_delivery_option")
-        : "delivery";
-      }
+  var branch_select = branch_option == "single" ? "" : generateBranchSelect();
 
-      var branch_select =
-        res.branch_option == "single" ? "" : generateBranchSelect();
+  var zipcodeInput =
+    delivery_type == "disable" || delivery_type == "pickup_only"
+      ? ""
+      : zipcodeInputHtml();
 
-      var zipcodeInput =
-        res.delivery_type == "disable" || res.delivery_type == "pickup_only"
-          ? ""
-          : zipcodeInputHtml();
-
-      var deliveryOptionHtml = `<p class="delivery-option" id="wp_liefer_delivery_option_field">
+  var deliveryPickupSwitcher = `<p class="delivery-option" id="wp_liefer_delivery_option_field">
       <span class="woocommerce-input-wrapper">
           <label for="wp_liefer_delivery_option_delivery" class="radio" data-option="delivery">Lieferung</label>
           
@@ -105,8 +118,8 @@ jQuery(document).ready(function ($) {
       </span>
   </p>`;
 
-      var deliveryEnabledHtml = `<div class="wp-liefer-delivery-info">
-      ${deliveryOptionHtml}
+  var deliveryPickupHtml = `<div class="wp-liefer-delivery-info">
+      ${deliveryPickupSwitcher}
 
       <form id="wp_liefer_delivery_popup_form" class="delivery-datetime-picker">
           <input type="hidden" class="input-radio" value="delivery" name="wp_liefer_delivery_option" id="wp_liefer_delivery_option_delivery" checked="checked" />
@@ -121,57 +134,58 @@ jQuery(document).ready(function ($) {
       </form>
     </div>`;
 
-      var deliveryDisabledHtml = `<form id="wp_liefer_delivery_popup_form">
-        <input type="hidden" class="input-radio" value="" name="wp_liefer_delivery_option" id="wp_liefer_delivery_option_delivery" checked="checked" />
+  var deliveryInputValue = getDeliveryInputValue(delivery_type);
+
+  var deliveryDisabledHtml = `<form id="wp_liefer_delivery_popup_form">
+        <input type="hidden" class="input-radio" value="${deliveryInputValue}" name="wp_liefer_delivery_option" id="wp_liefer_delivery_option_delivery" checked="checked" />
         ${branch_select} ${zipcodeInput}
         <button class="wp_liefer_save_cookies"> Starten sie meine bestellung </button>
     </form>`;
 
-      var branchModalContent =
-        res.delivery_type == "delivery_pickup"
-          ? deliveryEnabledHtml 
-          : deliveryDisabledHtml;
+  var branchModalContent =
+    delivery_type == "delivery_pickup"
+      ? deliveryPickupHtml
+      : deliveryDisabledHtml;
 
-      var delivery_branch_modal =
-        '<div id="branchModal" class="modal"><div class="modal-content"><span class="close">&times;</span><div class="modal-body">' +
-        branchModalContent +
-        "</div></div></div>";
+  var delivery_branch_modal =
+    '<div id="branchModal" class="modal"><div class="modal-content"><span class="close">&times;</span><div class="modal-body">' +
+    branchModalContent +
+    "</div></div></div>";
 
-      if (
-        !window.location.href.includes("checkout") &&
-        !window.location.href.includes("kasse")
-      ) {
-        $("body").prepend(delivery_branch_modal);
-      }
+  if (
+    (delivery_type == "disable" && branch_option == "single") ||
+    window.location.href.includes("checkout") ||
+    window.location.href.includes("kasse")
+  ) {
+  } else {
+    $("body").prepend(delivery_branch_modal);
+  }
 
-      showHideBranchModal(res.branch_option, res.delivery_type);
+  showHideBranchModal(branch_option, delivery_type);
 
-      setDeliveryOption(delivery_option);
+  setDeliveryOption(delivery_option);
 
-      $(
-        '#branchModal .delivery-option label[data-option="' +
-          delivery_option +
-          '"]'
-      ).click();
-    },
-    error: function (err) {
-      console.log(err);
-    },
-  });
+  $(
+    '#branchModal .delivery-option label[data-option="' + delivery_option + '"]'
+  ).click();
+
+  if(getCookieValue('wp_liefer_user_zipcode')){
+    $("form.woocommerce-checkout #billing_postcode").val(getCookieValue('wp_liefer_user_zipcode'));
+  }
 
   /**
    * --------------------------------------------------
    * Toggle date picker based on delivery/pickup option
    * --------------------------------------------------
    */
-  function switchDeliveryOption(delivery_option) {
-    if (delivery_option == "delivery") {
+  function switchDeliveryOption(deliveryOption) {
+    if (deliveryOption == "delivery") {
       $('[for="wp_liefer_delivery_option_pickup"]').removeClass("active");
       $('[for="wp_liefer_delivery_option_delivery"]').addClass("active");
 
       $(".pickup-datetime-picker").hide();
       $(".delivery-datetime-picker").show();
-    } else if (delivery_option == "pickup") {
+    } else if (deliveryOption == "pickup") {
       $('[for="wp_liefer_delivery_option_delivery"]').removeClass("active");
       $('[for="wp_liefer_delivery_option_pickup"]').addClass("active");
 
@@ -180,22 +194,24 @@ jQuery(document).ready(function ($) {
     }
   }
 
-  function setDeliveryOption(delivery_option) {
-    switchDeliveryOption(delivery_option);
+  function setDeliveryOption(deliveryOption) {
+    switchDeliveryOption(deliveryOption);
+
+    if (delivery_type != "delivery_pickup") {
+      localStorage.setItem("wp_liefer_delivery_option", deliveryOption);
+
+      document.cookie =
+        "wp_liefer_delivery_option=" + deliveryOption + ";path=/";
+    }
 
     $.ajax({
       method: "POST",
       url: WPLiefermanagerData.ajaxurl,
       data: {
         action: "wp_liefer_set_delivery_option",
-        delivery_option: delivery_option,
+        delivery_option: deliveryOption,
       },
       success: function (res) {
-        localStorage.setItem("wp_liefer_delivery_option", delivery_option);
-
-        document.cookie =
-          "wp_liefer_delivery_option=" + delivery_option + ";path=/";
-
         $(document.body).trigger("update_checkout");
       },
       error: function (err) {
@@ -208,16 +224,20 @@ jQuery(document).ready(function ($) {
     "change",
     'input[name="wp_liefer_delivery_option"]',
     function () {
-      delivery_option = $(this).val();
+      var deliveryOption = $(this).val();
 
-      setDeliveryOption(delivery_option);
+      localStorage.setItem("wp_liefer_delivery_option", deliveryOption);
+      document.cookie =
+        "wp_liefer_delivery_option=" + deliveryOption + ";path=/";
+
+      setDeliveryOption(deliveryOption);
     }
   );
 
   $("body").on("click", "#branchModal .delivery-option label", function () {
-    delivery_option = $(this).data("option");
+    var deliveryOption = $(this).data("option");
 
-    switchDeliveryOption(delivery_option);
+    switchDeliveryOption(deliveryOption);
   });
 
   /**
@@ -230,27 +250,34 @@ jQuery(document).ready(function ($) {
 
     var branchExists = $(form).find("#wp_liefer_branch_select").length;
 
-    var selected_branch = branchExists ? $(form)
-      .find("#wp_liefer_branch_select")
-      .val()
-      .replaceAll("'", '"') : '';
+    var selected_branch = branchExists
+      ? $(form).find("#wp_liefer_branch_select").val().replaceAll("'", '"')
+      : "";
 
     var user_zipcode = $(form).find("#wp_liefer_user_zipcode").val() || "";
 
-    localStorage.setItem("wp_liefer_delivery_option", delivery_option);
+    if (localStorage.getItem("wp_liefer_delivery_option") != delivery_option) {
+      localStorage.setItem("wp_liefer_delivery_option", delivery_option);
+    }
+
     localStorage.setItem("wp_liefer_selected_branch", selected_branch);
     localStorage.setItem("wp_liefer_user_zipcode", user_zipcode);
 
-    document.cookie =
-      "wp_liefer_delivery_option=" + delivery_option + ";path=/";
+    if (getCookieValue("wp_liefer_delivery_option") != delivery_option) {
+      document.cookie =
+        "wp_liefer_delivery_option=" + delivery_option + ";path=/";
+    }
+
     document.cookie =
       "wp_liefer_selected_branch=" + selected_branch + ";path=/";
+
     document.cookie = "wp_liefer_user_zipcode=" + user_zipcode + ";path=/";
 
     $("#branchModal").hide();
 
     window.location.reload();
   }
+
   $(document).on("submit", "#wp_liefer_delivery_popup_form", function (e) {
     e.preventDefault();
     wpLieferSaveCookies($(this));
