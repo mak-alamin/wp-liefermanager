@@ -153,10 +153,9 @@ class Common
 
         $html = '';
 
-        $html .= '<div class="additives">';
+        $html .= '<ul class="additives">';
 
         if (!empty($allergenes_keys)) {
-            $html .= '<ul >';
 
             foreach ($all_allergenes as $key => $allergene) {
                 $allergene_key = strtolower(str_replace(' ', '_', $allergene['fullname']));
@@ -170,8 +169,6 @@ class Common
                     $html .= ' <li><a href="' . site_url('zusatzstoffe-allergene') . '" target="_blank"> <img src="' . $icon . '" class="ml-1"/></a></li>';
                 }
             }
-
-            $html .= '</ul>';
         }
 
         // Additives
@@ -180,8 +177,6 @@ class Common
         $additive_keys = get_post_meta(intval($product_id), 'additives_checked', true);
 
         if (!empty($additive_keys)) {
-            $html .= '<ul>';
-
             foreach ($all_additives as $key => $additive) {
                 $additive_key = strtolower(str_replace(' ', '_', $additive['fullname']));
 
@@ -191,8 +186,6 @@ class Common
                     $html .= ' <li><a href="' . site_url('zusatzstoffe-allergene') . '" target="_blank"> <img src="' . $icon . '" class="ml-1"/></a></li>';
                 }
             }
-
-            $html .= '</ul>';
         }
 
         // Food Types
@@ -201,8 +194,6 @@ class Common
         $foodtype_keys = get_post_meta(intval($product_id), 'foodtypes_checked', true);
 
         if (!empty($foodtype_keys)) {
-            $html .= '<ul>';
-
             foreach ($all_foodtype_icons as $key => $foodtype) {
                 $foodtype_key = strtolower(str_replace(' ', '_', $foodtype['fullname']));
 
@@ -212,10 +203,9 @@ class Common
                     $html .= ' <li><a href="' . site_url('zusatzstoffe-allergene') . '" target="_blank"> <img src="' . $icon . '" class="ml-1"/></a></li>';
                 }
             }
-            $html .= '</ul>';
         }
-
-        $html .= '</div>';
+        
+        $html .= '</ul>';
 
         return $html;
     }

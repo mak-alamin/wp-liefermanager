@@ -10,9 +10,6 @@ jQuery(document).ready(function ($) {
    *  Delivery Option & Branch Selection Popup
    * ------------------------------------------
    */
-
-  console.log(WPLiefermanagerData);
-
   var delivery_type = WPLiefermanagerData.settings.delivery_type;
   var branch_option = WPLiefermanagerData.settings.branch_option;
 
@@ -69,8 +66,6 @@ jQuery(document).ready(function ($) {
     var forBranch = branchOption == "multi" && !branchSelected;
 
     var forZipcode = deliveryOptionSelected == "delivery" && !zipcodeSelected;
-
-    console.log(forDelivery, forBranch, forZipcode);
 
     if (forDelivery || forBranch || forZipcode) {
       $("#branchModal").css({ display: "flex" });

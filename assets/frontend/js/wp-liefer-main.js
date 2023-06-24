@@ -269,6 +269,9 @@
     $("iframe#productEmbed").contents().find("#wpadminbar").remove();
     $("iframe#productEmbed").contents().find("header").remove();
     $("iframe#productEmbed").contents().find(".header").remove();
+
+    $("iframe#productEmbed").contents().find("#branchModal").hide();
+    
     $("iframe#productEmbed").contents().find("footer").remove();
     $("iframe#productEmbed").contents().find(".footer").remove();
 

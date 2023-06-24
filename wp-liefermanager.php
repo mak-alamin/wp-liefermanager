@@ -4,7 +4,7 @@
  * Plugin Name: WP Liefermanager
  * Plugin URI: https: //example.com/plugins/the-basics/
  * Description: Online Food Ordering System, Delivery/Pickup, Table Reservation with WooCommerce
- * Version: 1.0.3
+ * Version: 1.0.4
  * Requires at least: 5.2
  * Requires PHP: 7.2
  * Author: Mak Alamin
