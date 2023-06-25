@@ -303,10 +303,7 @@ span.triangle.two {
 .wpliefer-product-layout.style-3 .products .order-button {
   position: absolute;
   bottom: 0;
-  width: 100%;
-}
-@media (min-width:600px) {
-
+  width: 90%;
 }
 
 /* Checkout Delivery Info */
@@ -694,6 +691,9 @@ button.button.calculate-tip {
   }
   .wpliefer-product-layout ul.tab-menu li {
     display: inline-block;
+  }
+  .wpliefer-product-layout .button.add_to_cart{
+    padding: 10px;
   }
 
   #branchModal .modal-body {
