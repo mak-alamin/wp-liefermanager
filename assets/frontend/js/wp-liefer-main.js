@@ -336,7 +336,12 @@
   });
 
   $(document).ready(function($) {
-    $('.tab-menu.horizontal').slick({
+    var slickSelector = '.tab-menu.horizontal';
+    if(window.innerWidth < 992){
+      slickSelector = '.tab-menu.horizontal, .tab-menu.vertical'
+    }
+
+    $(slickSelector).slick({
         slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: true,

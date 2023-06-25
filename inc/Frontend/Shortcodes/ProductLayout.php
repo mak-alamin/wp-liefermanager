@@ -29,9 +29,9 @@ class ProductLayout extends \Inc\Base\Common
 
     public function add_product_layout_shortcode($atts)
     {
-        wp_enqueue_style('slick', WP_LIEFERMANAGER_ASSETS . '/frontend/libs/slick/slick.css', null, false, 'all' );
+        wp_enqueue_style('slick', WP_LIEFERMANAGER_ASSETS . '/frontend/libs/slick/slick.css', null, false, 'all');
 
-        wp_enqueue_style('slick-theme', WP_LIEFERMANAGER_ASSETS . '/frontend/libs/slick/slick-theme.css', null, false, 'all' );
+        wp_enqueue_style('slick-theme', WP_LIEFERMANAGER_ASSETS . '/frontend/libs/slick/slick-theme.css', null, false, 'all');
 
         wp_enqueue_script('slick', WP_LIEFERMANAGER_ASSETS . '/frontend/libs/slick/slick.js', 'jquery', false, true);
 
@@ -39,12 +39,14 @@ class ProductLayout extends \Inc\Base\Common
 
         $branchId = isset($atts['branch_id']) ? $atts['branch_id'] : 0;
 
-        if($this->get_branchId()){
+        $branchId = 0;
+
+        if ($this->get_branchId()) {
             $branchId = $this->get_branchId();
         }
 
         $productCats = carbon_get_post_meta($layoutId, 'wp_liefer_layout_product_categories');
-        
+
         $productSortBy = carbon_get_post_meta($layoutId, 'wp_liefer_product_sorting');
 
         $tableId = (isset($_GET['table_id'])) ? $_GET['table_id'] : 0;
@@ -63,17 +65,15 @@ class ProductLayout extends \Inc\Base\Common
 
         $isTabCategories = $catTitleView == 'top_tabs' || $catTitleView == 'left_tabs';
 
-        $html = '';
+        $html = '<div class="wpliefer-product-layout style-' . $layoutStyle . '">';
 
-        if($layoutStyle == '2'){
-            $html = require_once __DIR__ . '/product-layouts/style-2.php';
-        
-        } else if($layoutStyle == '3') {
-            $html = require_once __DIR__ . '/product-layouts/style-3.php';
-
+        if ($catTitleView == 'no_titles') {
+            $html .= require_once __DIR__ . '/product-layouts/without-cat.php';
         } else {
-            $html = require_once __DIR__ . '/product-layouts/style-1.php';
+            $html .= require_once __DIR__ . '/product-layouts/with-cat.php';
         }
+
+        $html .= '</div>'; // .wpliefer-product-layout
 
         return $html;
     }

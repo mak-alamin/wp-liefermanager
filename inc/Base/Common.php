@@ -104,11 +104,18 @@ class Common
                 );
         }
 
+        $meta_key = ('price' == $sortBy) ? '_price' : '';
+
+        $sortBy = ('price' == $sortBy) ? 'meta_value_num' : $sortBy;
+
+
         $args = array(
             'post_type' => 'product',
             'posts_per_page' => -1,
             'tax_query' => $tax_query,
-            'orderby'        => $sortBy
+            'orderby'        => $sortBy,
+            'meta_key' => $meta_key,
+            'order' => 'ASC' // 'DESC'
         );
 
         $products = get_posts($args);
