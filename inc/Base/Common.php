@@ -35,13 +35,13 @@ class Common
     }
 
     function get_branch_name($selectedBranch)
-    {  
+    {
         if (empty($selectedBranch)) {
             return false;
         }
 
         $formattedData = str_replace('\"', '"', $selectedBranch);
-            
+
         $branchInfo = json_decode($formattedData);
 
         return $branchInfo->name;
@@ -82,7 +82,7 @@ class Common
         );
     }
 
-    public function get_products($category_id = 0, $branch_id = 0)
+    public function get_products($category_id = 0, $branch_id = 0, $sortBy = 'date')
     {
         $tax_query = array();
 
@@ -107,7 +107,8 @@ class Common
         $args = array(
             'post_type' => 'product',
             'posts_per_page' => -1,
-            'tax_query' => $tax_query
+            'tax_query' => $tax_query,
+            'orderby'        => $sortBy
         );
 
         $products = get_posts($args);
@@ -204,7 +205,7 @@ class Common
                 }
             }
         }
-        
+
         $html .= '</ul>';
 
         return $html;

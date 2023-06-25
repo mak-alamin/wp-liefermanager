@@ -90,13 +90,21 @@ class ProductLayout
                     '5' => 'Spalte 5',
                     '6' => 'Spalte 6',
                 )),
-            
+
             Field::make('select', 'wp_liefer_layout_style', 'Stil')
                 ->set_classes('fit-content')
                 ->set_options(array(
                     '1' => 'Stil 1',
                     '2' => 'Stil 2',
                     '3' => 'Stil 3',
+                )),
+
+            Field::make('select', 'wp_liefer_product_sorting', 'Sortierung')
+                ->set_classes('fit-content')
+                ->set_options(array(
+                    'date' => 'Datum',
+                    'price' => 'Preis',
+                    'menu_order' => 'Menüreihenfolge',
                 )),
 
             Field::make('set', 'wp_liefer_layout_product_categories', 'Produktkategorien')

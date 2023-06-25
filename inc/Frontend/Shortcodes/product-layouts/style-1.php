@@ -34,7 +34,7 @@ if ($catTitleView == 'no_titles') {
 
 if (!empty($productCats)) {
     foreach ($productCats as $key => $catID) {
-        $products = $this->get_products($catID, $branchId);
+        $products = $this->get_products($catID, $branchId, $productSortBy);
 
         $activeClass = ($isTabCategories && $key == 0) ? 'active' : '';
 

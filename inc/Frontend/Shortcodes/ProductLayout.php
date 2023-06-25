@@ -44,6 +44,8 @@ class ProductLayout extends \Inc\Base\Common
         }
 
         $productCats = carbon_get_post_meta($layoutId, 'wp_liefer_layout_product_categories');
+        
+        $productSortBy = carbon_get_post_meta($layoutId, 'wp_liefer_product_sorting');
 
         $tableId = (isset($_GET['table_id'])) ? $_GET['table_id'] : 0;
 
@@ -72,7 +74,6 @@ class ProductLayout extends \Inc\Base\Common
         } else {
             $html = require_once __DIR__ . '/product-layouts/style-1.php';
         }
-
 
         return $html;
     }
