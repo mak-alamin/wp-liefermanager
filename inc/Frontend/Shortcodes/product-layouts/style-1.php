@@ -58,7 +58,7 @@ if (!empty($productCats)) {
 
                 $title = get_the_title($post->ID);
                 $link = get_the_permalink($post->ID);
-                $image = get_the_post_thumbnail($post->ID, 'thumbnail');
+                $image = get_the_post_thumbnail($post->ID, 'full');
 
                 $html .= '<div class="product">';
                 $html .= '<figure>' . $image . '</figure>';

@@ -71,6 +71,9 @@ ul.additives li {
   column-gap: 20px;
   flex-wrap: wrap;
 }
+.wpliefer-product-layout .products .product{
+  position: relative;
+}
 .wpliefer-product-layout .grid.column-1 .product {
   width: 100%;
 }
@@ -111,7 +114,8 @@ ul.additives li {
 }
 .wpliefer-product-layout .product img {
   object-fit: contain;
-  max-width: 100px;
+  width: 100%;
+  max-width: 170px;
 }
 .wpliefer-product-layout .button.add_to_cart {
   text-align: center;
@@ -149,12 +153,16 @@ ul.additives li {
   font-size: 1.5rem;
   margin-top: 18px;
 }
+.wpliefer-product-layout .woocommerce-Price-amount.amount {
+  font-weight: 700;
+  color: #ce1635;
+}
 .wpliefer-product-layout .tab-menu.horizontal {
   align-items: center;
   list-style: none;
   margin: 0;
   margin-bottom: 20px;
-  padding: 0;
+  padding: 0 30px;
 }
 .wpliefer-product-layout .tab-menu.vertical {
   flex-direction: column;
@@ -177,9 +185,10 @@ ul.additives li {
   text-decoration: none;
   padding: 5px 25px;
   border-radius: 20px;
+  text-align: center;
 }
 .wpliefer-product-layout .tab-menu li.active a {
-  background-color: #333;
+  background-color: #cc1818;
   color: #fff;
 }
 .wpliefer-product-layout .tab-content .tab-pane {
@@ -194,6 +203,110 @@ ul.additives li {
 }
 .layout-additives .additives img {
   max-width: 40px;
+}
+
+/* Slick carousel*/
+.wpliefer-product-layout .slick-track{
+  display: flex;
+}
+.wpliefer-product-layout li.slick-slide {
+  min-width: 100px;
+}
+.wpliefer-product-layout button.slick-arrow {
+  z-index: 1;
+}
+.wpliefer-product-layout .slick-prev,
+.wpliefer-product-layout .slick-next {
+  width: 24px;
+  height: 24px;
+  background: #4b4b4b;
+  padding: 0px;
+}
+.wpliefer-product-layout .slick-prev {
+  left: 0px;
+}
+.wpliefer-product-layout .slick-next{
+  right: 0px;
+}
+.wpliefer-product-layout .slick-prev:before, 
+.wpliefer-product-layout .slick-next:before {
+  font-size: 21px;
+  line-height: 1.3;
+  padding-left: 2px;
+}
+
+/* Triangle */
+.triangle {
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0 10px 15px 10px;
+  border-color: transparent transparent #cc1818 transparent;
+  transform: rotate(0deg);
+}
+span.triangle.one {
+  left: -10px;
+  transform: rotate(180deg);
+}
+span.triangle.two {
+  left: -10px;
+  bottom: 0;
+}
+
+/* Product Layout - Style 2 */
+.wpliefer-product-layout.style-2 .tab-menu li a {
+  background-color: transparent;
+  color: #cc1818;
+  font-weight: 500;
+  border-radius: 5px;
+  text-align: center;
+}
+.wpliefer-product-layout.style-2 .tab-menu li.active a{
+  background-color: #cc1818;
+  color: #fff;
+}
+.wpliefer-product-layout.style-2 .product {
+  border-radius: 6px;
+}
+.wpliefer-product-layout.style-2 .product .price {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: #cc1818;
+  padding: 0px 6px;
+}
+.wpliefer-product-layout.style-2 .product .price .woocommerce-Price-amount.amount{
+  color: #fff;
+}
+/* Product Layout - Style 3 */
+.wpliefer-product-layout.style-3 .products .product {
+  flex-direction: row;
+  align-items: stretch;
+  padding: 0;
+}
+.wpliefer-product-layout.style-3 .products .product .col-1 {
+  width: 40%;
+  min-height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wpliefer-product-layout.style-3 .products .product .col-2 {
+  background: #f4f4f4;
+  width: 60%;
+}
+.wpliefer-product-layout.style-3 .products .product > div {
+  padding: 5px 10px;
+}
+.wpliefer-product-layout.style-3 .products .order-button {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+@media (min-width:600px) {
+
 }
 
 /* Checkout Delivery Info */

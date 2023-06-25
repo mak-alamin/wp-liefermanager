@@ -58,28 +58,35 @@ if (!empty($productCats)) {
 
                 $title = get_the_title($post->ID);
                 $link = get_the_permalink($post->ID);
-                $image = get_the_post_thumbnail($post->ID, 'thumbnail');
+                $image = get_the_post_thumbnail($post->ID, 'full');
 
                 $html .= '<div class="product">';
+
+                $html .= '<div class="col-1">';
                 $html .= '<figure>' . $image . '</figure>';
 
-                $html .= '<div class="layout-additives">';
-
-                $html .= '<h3>' . $post->post_title . '</h3>';
-
-                $html .= '<p class="short-desc">';
-                $html .= $this->show_short_description($post->ID);
-                $html .= '</p>';
-
-                $html .= $this->show_additives($post->ID);
-                $html .= '</div>';
-
                 $html .= '<div class="order-button">';
-                $html .= '<p>' . $product->get_price_html() . '</p>';
 
                 $html .= $this->generate_add_to_cart_button($post->ID);
 
-                $html .= '</div>'; //product-info
+                $html .= '</div>'; //order-button
+                $html .= '</div>'; //col-1
+
+                $html .= '<div class="col-2">';
+                $html .= '<h3>' . $post->post_title . '</h3>';
+                
+                $html .= '<p class="short-desc">';
+                $html .= $this->show_short_description($post->ID);
+                $html .= '</p>';
+                
+                $html .= '<p>' . $product->get_price_html() . '</p>';
+                
+                $html .= '<div class="layout-additives">';
+                $html .= $this->show_additives($post->ID);
+                $html .= '</div>';
+
+                $html .= '</div>'; //col-2
+
                 $html .= '</div>'; //product
             }
         }

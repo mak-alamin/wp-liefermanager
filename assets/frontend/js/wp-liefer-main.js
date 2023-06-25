@@ -334,4 +334,25 @@
 
     $("body").block({ message: wp_liefer_loader });
   });
+
+  $(document).ready(function($) {
+    $('.tab-menu.horizontal').slick({
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        centerMode: true,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2
+                }
+            }
+        ]
+    });
+
+    $(".slick-arrow").text("");
+});
+
 })(jQuery);

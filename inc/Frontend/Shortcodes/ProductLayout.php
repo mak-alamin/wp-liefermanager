@@ -29,9 +29,19 @@ class ProductLayout extends \Inc\Base\Common
 
     public function add_product_layout_shortcode($atts)
     {
+        wp_enqueue_style('slick', WP_LIEFERMANAGER_ASSETS . '/frontend/libs/slick/slick.css', null, false, 'all' );
+
+        wp_enqueue_style('slick-theme', WP_LIEFERMANAGER_ASSETS . '/frontend/libs/slick/slick-theme.css', null, false, 'all' );
+
+        wp_enqueue_script('slick', WP_LIEFERMANAGER_ASSETS . '/frontend/libs/slick/slick.js', 'jquery', false, true);
+
         $layoutId = isset($atts['layout_id']) ? $atts['layout_id'] : 0;
 
         $branchId = isset($atts['branch_id']) ? $atts['branch_id'] : 0;
+
+        if($this->get_branchId()){
+            $branchId = $this->get_branchId();
+        }
 
         $productCats = carbon_get_post_meta($layoutId, 'wp_liefer_layout_product_categories');
 
