@@ -1,7 +1,9 @@
 <?php
 
 /**
+ * -----------------------------
  * @package  WP_LIEFERMANAGER
+ * -----------------------------
  */
 
 namespace Inc\Admin\Pages;
@@ -34,6 +36,8 @@ class Extras
                                 'text' => 'Text Box',
                                 'textarea' => 'Textarea'
                             )),
+                        Field::make('text', 'option_min', 'Minimum Auswahl'),
+                        Field::make('text', 'option_max', 'Maximale Auswahl'),
                         Field::make('select', 'required', 'Erforderlich?')
                             ->add_options(array(
                                 'yes' => 'Ja',

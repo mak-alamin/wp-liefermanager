@@ -127,7 +127,7 @@ class Common
     {
         $product = wc_get_product($product_id);
 
-        $button_text = __('Bestellen', 'wp-liefermanager');
+        $button_text = __('Jetzt Bestellten ', 'wp-liefermanager');
 
         $button_url = get_permalink($product->get_id());
 

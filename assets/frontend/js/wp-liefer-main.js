@@ -54,6 +54,8 @@
           sizeAttr: $(this).val(),
         },
         success: function (res) {
+          // console.log(res);
+
           $(".food_extras").html(res?.extra_html);
 
           productPrice = parseFloat(res?.price);
@@ -61,6 +63,17 @@
           var totalPriceHtml = (parseFloat(res?.price) * quantity).toFixed(2);
 
           $(".wp-liefer-total-price").html(totalPriceHtml);
+          
+          if (res.extras) {
+            $.each(res.extras, function (i, extras) {
+              $.each(extras, function(i, extra){
+                if (extra.option_min) {
+                  $(".single_add_to_cart_button").attr("disabled", true);
+                }
+              })
+
+            });
+          }
         },
         error: function (err) {
           console.log(err);
@@ -82,9 +95,9 @@
 
         $(this).toggleClass("active");
 
-        var options = $(
-          '.wp_liefer_extra_option input[type="checkbox"].active'
-        );
+        var options = $(this)
+          .closest(".wp_liefer_extra_options")
+          .find('input[type="checkbox"].active');
 
         var option = {};
 
@@ -107,8 +120,51 @@
         totalPrice *= quantity;
 
         $(".wp-liefer-total-price").text(totalPrice.toFixed(2));
+
+        var min_selection = $(this)
+          .closest(".wp_liefer_extra_options")
+          .data("min");
+        var max_selection = $(this)
+          .closest(".wp_liefer_extra_options")
+          .data("max");
+
+        if (options.length == max_selection) {
+          $(this)
+            .closest(".wp_liefer_extra_options")
+            .find("input:not(.active)")
+            .attr("disabled", true);
+        } else {
+          $(this)
+            .closest(".wp_liefer_extra_options")
+            .find("input")
+            .removeAttr("disabled");
+        }
+
+        if (options.length < min_selection) {
+          $(".single_add_to_cart_button").attr("disabled", true);
+          $(this)
+            .closest(".wp_liefer_extra_options")
+            .find(".option-title .error-text")
+            .text("(Mindestauswahl " + min_selection + ")");
+        } else {
+          $(".single_add_to_cart_button").removeAttr("disabled");
+          $(this)
+            .closest(".wp_liefer_extra_options")
+            .find(".option-title .error-text")
+            .text("");
+        }
       }
     );
+
+    var extra_options = $(".wp_liefer_extra_options");
+
+    if (extra_options.length) {
+      $.each(extra_options, function (i, option) {
+        if ($(option).data("min")) {
+          $(".single_add_to_cart_button").attr("disabled", true);
+        }
+      });
+    }
 
     // Calculate radio extras
     $(document).on(
@@ -271,7 +327,7 @@
     $("iframe#productEmbed").contents().find(".header").remove();
 
     $("iframe#productEmbed").contents().find("#branchModal").hide();
-    
+
     $("iframe#productEmbed").contents().find("footer").remove();
     $("iframe#productEmbed").contents().find(".footer").remove();
 
@@ -335,29 +391,30 @@
     $("body").block({ message: wp_liefer_loader });
   });
 
-  $(document).ready(function($) {
-    var slickSelector = '.tab-menu.horizontal';
-    if(window.innerWidth < 992){
-      slickSelector = '.tab-menu.horizontal, .tab-menu.vertical'
+  $(document).ready(function ($) {
+    var slickSelector = ".tab-menu.horizontal";
+    if (window.innerWidth < 992) {
+      slickSelector = ".tab-menu.horizontal, .tab-menu.vertical";
     }
 
-    $(slickSelector).slick({
+    if ($(slickSelector).length) {
+      $(slickSelector).slick({
         slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 5000,
         centerMode: true,
         responsive: [
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 2
-                }
-            }
-        ]
-    });
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 2,
+            },
+          },
+        ],
+      });
+    }
 
     $(".slick-arrow").text("");
-});
-
+  });
 })(jQuery);

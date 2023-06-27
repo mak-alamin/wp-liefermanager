@@ -504,6 +504,10 @@ iframe#productEmbed {
 .wp_liefer_extra_option label {
   font-size: 13px;
 }
+.wp_liefer_extra_option input[disabled], .wp_liefer_extra_option input[disabled] + label {
+  cursor: not-allowed;
+  color: #cfcfcf;
+}
 .woocommerce div.product form.cart div.quantity {
   float: none;
 }

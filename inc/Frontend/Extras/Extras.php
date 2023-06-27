@@ -82,6 +82,7 @@ class Extras
         wp_send_json(array(
             'price' => $price,
             'extra_html' => $extra_html,
+            'extras' => $selected_extras
         ));
     }
 
@@ -321,10 +322,15 @@ class Extras
         if (!empty($global_extra_posts)) {
             $serial = 0;
             foreach ($global_extra_posts as $global_extra_key => $global_extras) {
-                if (!empty($global_extras)) {
+                if (!empty($global_extras)) {        
                     foreach ($global_extras as $extra_key => $extra) {
                         if (isset($extra['extra_options']) && !empty($extra['extra_options'])) {
-                            $extra_html .= "<p class='option-title'><b>" . $extra['option_name'] . "</b></p>";
+                             
+                            $extra_html .= '<div class="wp_liefer_extra_options" data-min="'.$extra['option_min'].'" data-max="'.$extra['option_max'].'">';
+
+                            $selection_error = empty($extra['option_min']) ? '' : '<span class="error-text">(Mindestauswahl ' . $extra['option_min'] . ')</span>';
+
+                            $extra_html .= "<p class='option-title'><b>" . $extra['option_name'] . "</b> ". $selection_error ."</p>";
 
                             $price_type = 'quantity';
 
@@ -398,6 +404,8 @@ class Extras
                                     $extra_html .= "</p>";
                                 }
                             }
+
+                            $extra_html .= '</div>';
                         }
 
                         $serial++;
